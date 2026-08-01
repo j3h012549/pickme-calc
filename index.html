@@ -72,6 +72,16 @@
     .head p{ font-size: 14.5px; }
   }
 
+  .brand-logo-top{
+    display: block;
+    height: 44px;
+    width: auto;
+    margin: 0 auto 18px;
+  }
+  @media (min-width: 721px){
+    .brand-logo-top{ height: 58px; margin-bottom: 22px; }
+  }
+
   /* ---------- Section shell ---------- */
   .section{
     background: var(--bg-card);
@@ -462,6 +472,80 @@
     letter-spacing: 0.1em;
   }
 
+  /* ---------- Tax toggle ---------- */
+  .tax-toggle-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top: 18px;
+    font-size: 12.5px;
+    color:#B8B0A2;
+  }
+  .tax-switch{
+    position:relative;
+    width:38px;
+    height:22px;
+    flex-shrink:0;
+    display:inline-block;
+  }
+  .tax-switch input{
+    opacity:0;
+    width:0;
+    height:0;
+  }
+  .tax-switch .slider{
+    position:absolute;
+    cursor:pointer;
+    top:0;left:0;right:0;bottom:0;
+    background:#45403A;
+    transition:.15s;
+    border-radius:22px;
+  }
+  .tax-switch .slider::before{
+    content:'';
+    position:absolute;
+    height:16px;width:16px;
+    left:3px;bottom:3px;
+    background:#F8F6F1;
+    transition:.15s;
+    border-radius:50%;
+  }
+  .tax-switch input:checked + .slider{
+    background: var(--orange);
+  }
+  .tax-switch input:checked + .slider::before{
+    transform: translateX(16px);
+  }
+  .tax-detail{
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px dashed #45403A;
+  }
+  .tax-line{
+    display:flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 6px 0;
+    font-size: 13.5px;
+    color:#B8B0A2;
+  }
+  .tax-line-final{
+    margin-top: 4px;
+    padding-top: 12px;
+    border-top: 1px solid #45403A;
+  }
+  .tax-line-final .tax-lbl{
+    color: var(--bg-card);
+    font-size:14px;
+    letter-spacing: 0.05em;
+  }
+  .tax-line-final .tax-val{
+    font-family: 'Noto Serif TC', serif;
+    font-weight:700;
+    font-size:26px;
+    color: var(--orange);
+  }
+
   /* ---------- Print / export button ---------- */
   .print-btn-row{
     margin-top: 20px;
@@ -568,6 +652,14 @@
       color: #6B6459;
       text-align:center;
     }
+
+    .brand-logo-top{ height: 40px; }
+    .tax-toggle-row{ display:none !important; }
+    .tax-detail{ border-top: 1px dashed #ccc; }
+    .tax-line{ color:#6B6459; }
+    .tax-line-final{ border-top: 1px solid #2B2722; }
+    .tax-line-final .tax-lbl{ color:#2B2722; }
+    .tax-line-final .tax-val{ color:#D95C10; }
   }
   .quote-print-foot{ display:none; }
 </style>
@@ -583,6 +675,7 @@
   </div>
 
   <div class="head">
+    <img class="brand-logo-top" src="data:image/png;base64,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" alt="Pick me Logo">
     <div class="eyebrow">/ Color Easy Life Cozy</div>
     <h1>材料試算工具</h1>
     <p>輸入施作坪數，挑選喜歡的質感漆款，<br>立即估算所需桶數與總費用。</p>
@@ -597,12 +690,12 @@
     <div class="dim-row">
       <div class="dim-field">
         <label>長 LENGTH（公尺）</label>
-        <input type="number" id="lengthInput" min="0" step="0.01" placeholder="0.0">
+        <input type="text" inputmode="decimal" pattern="[0-9]*\.?[0-9]*" id="lengthInput" placeholder="0.0">
       </div>
       <div class="dim-x">×</div>
       <div class="dim-field">
         <label>寬 / 高 WIDTH（公尺）</label>
-        <input type="number" id="widthInput" min="0" step="0.01" placeholder="0.0">
+        <input type="text" inputmode="decimal" pattern="[0-9]*\.?[0-9]*" id="widthInput" placeholder="0.0">
       </div>
       <div class="dim-eq">=</div>
       <div class="dim-result">
@@ -629,9 +722,29 @@
     <div class="summary-sub">已選材料明細</div>
     <div id="summaryList"></div>
     <div class="summary-total">
-      <span class="t-lbl">總計</span>
+      <span class="t-lbl">未稅總計</span>
       <span class="t-val" id="totalVal">$0</span>
     </div>
+
+    <div class="tax-toggle-row" id="taxToggleRow">
+      <label class="tax-switch">
+        <input type="checkbox" id="taxToggle">
+        <span class="slider"></span>
+      </label>
+      <span>加收 5% 稅金（如需開立發票／收據請勾選）</span>
+    </div>
+
+    <div class="tax-detail" id="taxDetail" style="display:none;">
+      <div class="tax-line">
+        <span class="tax-lbl">稅金（未稅總計 × 5%）</span>
+        <span class="tax-val" id="taxVal">$0</span>
+      </div>
+      <div class="tax-line tax-line-final">
+        <span class="tax-lbl">含稅總計</span>
+        <span class="tax-val" id="totalValTax">$0</span>
+      </div>
+    </div>
+
     <div class="summary-note">＊塗料與底漆每桶皆內含調色費 $100/桶（另計，已計入下方總計金額中）；波波石為天然石粉現成材質，無需調色，故不加收調色費。桶數計算採用區間平均值，並向上取整（無法購買非整數桶裝）。同一施作範圍若選擇多款需要相同底漆的材料，底漆僅依總坪數計算一次，不重複加總。實際施作面積會因牆況、底材吸收度略有差異，建議預留 5–10% 餘量。</div>
 
     <div class="print-btn-row">
@@ -763,6 +876,9 @@ const primers = {
 // state: { [matId]: 'batch' | 'brush' | null }
 const state = {};
 materials.forEach(m => state[m.id] = null);
+
+const TAX_RATE = 0.05;
+let currentGrandTotal = 0;
 
 function getPing(){
   const l = parseFloat(document.getElementById('lengthInput').value) || 0;
@@ -908,8 +1024,13 @@ function renderSummary(){
     totalEl.textContent = '$0';
     printBtn.classList.add('disabled');
     printBtn.disabled = true;
+    currentGrandTotal = 0;
+    document.getElementById('taxToggleRow').style.display = 'none';
+    updateTaxDisplay();
     return;
   }
+
+  document.getElementById('taxToggleRow').style.display = 'flex';
 
   printBtn.classList.remove('disabled');
   printBtn.disabled = false;
@@ -968,6 +1089,22 @@ function renderSummary(){
   }
 
   totalEl.textContent = '$' + grandTotal.toLocaleString();
+  currentGrandTotal = grandTotal;
+  updateTaxDisplay();
+}
+
+function updateTaxDisplay(){
+  const toggle = document.getElementById('taxToggle');
+  const detail = document.getElementById('taxDetail');
+  if(!toggle.checked){
+    detail.style.display = 'none';
+    return;
+  }
+  const tax = Math.round(currentGrandTotal * TAX_RATE);
+  const withTax = currentGrandTotal + tax;
+  document.getElementById('taxVal').textContent = '$' + tax.toLocaleString();
+  document.getElementById('totalValTax').textContent = '$' + withTax.toLocaleString();
+  detail.style.display = 'block';
 }
 
 function calcPrimerTotal(){
@@ -1038,17 +1175,34 @@ function setQuoteDate(){
   document.getElementById('quoteDate').textContent = `試算日期：${y}/${m}/${d}　長 ${ (parseFloat(document.getElementById('lengthInput').value)||0).toFixed(2) }m × 寬 ${ (parseFloat(document.getElementById('widthInput').value)||0).toFixed(2) }m ＝ ${getPing().toFixed(2)} 坪`;
 }
 
-document.getElementById('lengthInput').addEventListener('input', () => {
+function sanitizeNumericInput(el){
+  let v = el.value.replace(/[^0-9.]/g, '');
+  const firstDot = v.indexOf('.');
+  if(firstDot !== -1){
+    v = v.slice(0, firstDot + 1) + v.slice(firstDot + 1).replace(/\./g, '');
+  }
+  if(v !== el.value){
+    el.value = v;
+  }
+}
+
+document.getElementById('lengthInput').addEventListener('input', (e) => {
+  sanitizeNumericInput(e.target);
   renderPing();
   renderMatGrid();
   renderSummary();
   setQuoteDate();
 });
-document.getElementById('widthInput').addEventListener('input', () => {
+document.getElementById('widthInput').addEventListener('input', (e) => {
+  sanitizeNumericInput(e.target);
   renderPing();
   renderMatGrid();
   renderSummary();
   setQuoteDate();
+});
+
+document.getElementById('taxToggle').addEventListener('change', () => {
+  updateTaxDisplay();
 });
 
 document.getElementById('printBtn').addEventListener('click', () => {
