@@ -135,7 +135,7 @@
   }
   .wall-row{
     display:flex;
-    align-items:flex-start;
+    flex-direction:column;
     gap: 10px;
     padding-bottom: 18px;
     border-bottom: 1px dashed var(--line);
@@ -145,13 +145,17 @@
     padding-bottom: 0;
   }
   .wall-index{
-    width: 100%;
     font-family: 'EB Garamond', serif;
     font-style: italic;
     font-size: 12px;
     color: var(--orange);
     letter-spacing: 0.05em;
-    margin-bottom: 2px;
+  }
+  .wall-fields-wrap{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    flex-wrap: wrap;
   }
   .wall-fields{
     display:flex;
@@ -159,6 +163,7 @@
     gap: 12px;
     flex-wrap: wrap;
     flex: 1;
+    min-width: 0;
   }
   .dim-field{
     display:flex;
@@ -227,7 +232,6 @@
     line-height: 1;
     cursor: pointer;
     border-radius: 50%;
-    margin-top: 20px;
     transition: all 0.15s ease;
   }
   .remove-wall-btn:hover{
@@ -980,22 +984,24 @@ function renderWalls(){
   container.innerHTML = walls.map((wall, idx) => `
     <div class="wall-row" data-wall-id="${wall.id}">
       ${walls.length > 1 ? `<div class="wall-index">牆面 ${idx + 1}</div>` : ''}
-      <div class="wall-fields">
-        <div class="dim-field">
-          <label>長 LENGTH（公尺）</label>
-          <input type="text" inputmode="decimal" pattern="[0-9]*\\.?[0-9]*" data-field="length" value="${wall.length}" placeholder="0.0">
+      <div class="wall-fields-wrap">
+        <div class="wall-fields">
+          <div class="dim-field">
+            <label>長 LENGTH（公尺）</label>
+            <input type="text" inputmode="decimal" pattern="[0-9]*\\.?[0-9]*" data-field="length" value="${wall.length}" placeholder="0.0">
+          </div>
+          <div class="dim-x">×</div>
+          <div class="dim-field">
+            <label>寬 / 高 WIDTH（公尺）</label>
+            <input type="text" inputmode="decimal" pattern="[0-9]*\\.?[0-9]*" data-field="width" value="${wall.width}" placeholder="0.0">
+          </div>
+          <div class="dim-eq">=</div>
+          <div class="wall-subtotal">
+            <span class="num-sm">${calcWallPing(wall).toFixed(2)}</span><span class="unit-sm">坪</span>
+          </div>
         </div>
-        <div class="dim-x">×</div>
-        <div class="dim-field">
-          <label>寬 / 高 WIDTH（公尺）</label>
-          <input type="text" inputmode="decimal" pattern="[0-9]*\\.?[0-9]*" data-field="width" value="${wall.width}" placeholder="0.0">
-        </div>
-        <div class="dim-eq">=</div>
-        <div class="wall-subtotal">
-          <span class="num-sm">${calcWallPing(wall).toFixed(2)}</span><span class="unit-sm">坪</span>
-        </div>
+        ${walls.length > 1 ? `<button type="button" class="remove-wall-btn" data-remove-wall="${wall.id}" aria-label="刪除此牆面">✕</button>` : ''}
       </div>
-      ${walls.length > 1 ? `<button type="button" class="remove-wall-btn" data-remove-wall="${wall.id}" aria-label="刪除此牆面">✕</button>` : ''}
     </div>
   `).join('');
 }
