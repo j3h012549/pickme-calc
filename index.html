@@ -710,6 +710,20 @@
     cursor: not-allowed;
   }
 
+  .estimate-disclaimer{
+    margin-top: 18px;
+    padding: 14px 16px;
+    border-left: 3px solid var(--orange);
+    background: rgba(217, 92, 16, 0.1);
+    color: #D3CCBE;
+    font-size: 12.5px;
+    line-height: 1.8;
+  }
+  .estimate-disclaimer strong{
+    color: var(--orange);
+    font-weight: 600;
+  }
+
   /* ---------- Print quote header (hidden on screen) ---------- */
   .quote-print-head{
     display:none;
@@ -719,7 +733,7 @@
   @media print{
     body{ background: #FFFFFF; }
     .wrap{ max-width: none; padding: 0; }
-    .head, .print-btn-row, .footer-tag{ display:none; }
+    .head, .print-btn-row, .footer-tag, .estimate-disclaimer{ display:none; }
     .section{ border: none; padding: 0; margin-bottom: 26px; box-shadow:none; }
     .section-num{ display:none; }
     .section-title{ font-size: 15px; border-bottom: 1px solid #999; padding-bottom: 8px; }
@@ -919,6 +933,8 @@
         列印 / 匯出報價單
       </button>
     </div>
+
+    <div class="estimate-disclaimer"><strong>溫馨提醒：</strong>以上金額為系統初步試算結果，僅供參考。建議下載試算單，交由 Pickme 服務人員確認施作內容與現場條件後，協助您完成正式報價與下單。</div>
 
     <div class="quote-print-foot">此報價單由 Pickme 材料試算工具自動產生，僅供參考，實際施作面積與用量請現場確認為準。</div>
   </div>
