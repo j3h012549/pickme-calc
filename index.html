@@ -127,12 +127,38 @@
     .section-sub{ font-size: 13px; margin-bottom: 28px; }
   }
 
-  /* ---------- Step 1: dimensions ---------- */
-  .dim-row{
+  /* ---------- Step 1: dimensions (multi-wall) ---------- */
+  .wall-list{
+    display:flex;
+    flex-direction:column;
+    gap: 18px;
+  }
+  .wall-row{
+    display:flex;
+    align-items:flex-start;
+    gap: 10px;
+    padding-bottom: 18px;
+    border-bottom: 1px dashed var(--line);
+  }
+  .wall-row:last-child{
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .wall-index{
+    width: 100%;
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--orange);
+    letter-spacing: 0.05em;
+    margin-bottom: 2px;
+  }
+  .wall-fields{
     display:flex;
     align-items:center;
     gap: 12px;
     flex-wrap: wrap;
+    flex: 1;
   }
   .dim-field{
     display:flex;
@@ -174,25 +200,78 @@
     color: var(--line-strong);
     padding-top: 20px;
   }
-  .dim-result{
-    width: 100%;
+  .wall-subtotal{
+    display:flex;
+    align-items:baseline;
+    gap: 4px;
+    padding-top: 20px;
+  }
+  .wall-subtotal .num-sm{
+    font-family: 'Noto Serif TC', serif;
+    font-weight:600;
+    font-size: 18px;
+    color: var(--ink-soft);
+  }
+  .wall-subtotal .unit-sm{
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+  .remove-wall-btn{
+    flex-shrink:0;
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--line-strong);
+    background: var(--white);
+    color: var(--ink-soft);
+    font-size: 13px;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: 50%;
+    margin-top: 20px;
+    transition: all 0.15s ease;
+  }
+  .remove-wall-btn:hover{
+    border-color: var(--orange);
+    color: var(--orange);
+  }
+  .add-wall-btn{
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: 1px dashed var(--line-strong);
+    background: transparent;
+    color: var(--ink-soft);
+    font-size: 13px;
+    font-family: 'Noto Sans TC', sans-serif;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .add-wall-btn:hover{
+    border-color: var(--orange);
+    border-style: solid;
+    color: var(--orange);
+  }
+  .dim-total-row{
+    margin-top: 26px;
     padding-top: 18px;
-    margin-top: 6px;
-    border-top: 1px dashed var(--line);
+    border-top: 1px solid var(--line);
     display:flex;
     align-items: baseline;
-    gap: 8px;
+    gap: 10px;
+    flex-wrap: wrap;
   }
-  @media (min-width: 480px){
-    .dim-result{ width: auto; border-top: none; margin-top: 0; padding-top: 14px; }
+  .dim-total-lbl{
+    font-size: 13px;
+    color: var(--ink-soft);
+    letter-spacing: 0.04em;
   }
-  .dim-result .num{
+  .dim-total-row .num{
     font-family: 'Noto Serif TC', serif;
     font-weight: 700;
     font-size: 30px;
     color: var(--orange);
   }
-  .dim-result .unit{
+  .dim-total-row .unit{
     font-size: 14px;
     color: var(--ink-soft);
   }
@@ -685,25 +764,20 @@
   <div class="section dim-section">
     <div class="section-num">01</div>
     <div class="section-title">填寫施作坪數</div>
-    <div class="section-sub">輸入牆面長寬（公尺），自動換算坪數</div>
+    <div class="section-sub">輸入牆面長寬（公尺），可新增多面牆，系統自動加總換算坪數</div>
 
-    <div class="dim-row">
-      <div class="dim-field">
-        <label>長 LENGTH（公尺）</label>
-        <input type="text" inputmode="decimal" pattern="[0-9]*\.?[0-9]*" id="lengthInput" placeholder="0.0">
-      </div>
-      <div class="dim-x">×</div>
-      <div class="dim-field">
-        <label>寬 / 高 WIDTH（公尺）</label>
-        <input type="text" inputmode="decimal" pattern="[0-9]*\.?[0-9]*" id="widthInput" placeholder="0.0">
-      </div>
-      <div class="dim-eq">=</div>
-      <div class="dim-result">
-        <span class="num" id="pingResult">0.0</span>
-        <span class="unit">坪</span>
-      </div>
+    <div class="wall-list" id="wallList"></div>
+
+    <button type="button" class="add-wall-btn" id="addWallBtn">＋ 新增牆面</button>
+
+    <div class="dim-total-row">
+      <span class="dim-total-lbl">總坪數</span>
+      <span class="dim-eq">=</span>
+      <span class="num" id="pingResult">0.00</span>
+      <span class="unit">坪</span>
     </div>
-    <div class="dim-hint">1坪 ＝ 3.30578 平方公尺。換算公式：長（m）× 寬（m） ÷ 3.30578</div>
+
+    <div class="dim-hint">1坪 ＝ 3.30578 平方公尺。換算公式：長（m）× 寬（m） ÷ 3.30578；多面牆會將各面坪數加總計算。</div>
   </div>
 
   <!-- Step 2 -->
@@ -880,10 +954,50 @@ materials.forEach(m => state[m.id] = null);
 const TAX_RATE = 0.05;
 let currentGrandTotal = 0;
 
-function getPing(){
-  const l = parseFloat(document.getElementById('lengthInput').value) || 0;
-  const w = parseFloat(document.getElementById('widthInput').value) || 0;
+// ---------- Multi-wall dimension state ----------
+let walls = [];
+let wallIdCounter = 0;
+
+function createWall(length, width){
+  wallIdCounter += 1;
+  return { id: 'wall-' + wallIdCounter, length: length || '', width: width || '' };
+}
+
+walls.push(createWall());
+
+function calcWallPing(wall){
+  const l = parseFloat(wall.length) || 0;
+  const w = parseFloat(wall.width) || 0;
   return (l * w) / PING_PER_SQM;
+}
+
+function getPing(){
+  return walls.reduce((sum, w) => sum + calcWallPing(w), 0);
+}
+
+function renderWalls(){
+  const container = document.getElementById('wallList');
+  container.innerHTML = walls.map((wall, idx) => `
+    <div class="wall-row" data-wall-id="${wall.id}">
+      ${walls.length > 1 ? `<div class="wall-index">牆面 ${idx + 1}</div>` : ''}
+      <div class="wall-fields">
+        <div class="dim-field">
+          <label>長 LENGTH（公尺）</label>
+          <input type="text" inputmode="decimal" pattern="[0-9]*\\.?[0-9]*" data-field="length" value="${wall.length}" placeholder="0.0">
+        </div>
+        <div class="dim-x">×</div>
+        <div class="dim-field">
+          <label>寬 / 高 WIDTH（公尺）</label>
+          <input type="text" inputmode="decimal" pattern="[0-9]*\\.?[0-9]*" data-field="width" value="${wall.width}" placeholder="0.0">
+        </div>
+        <div class="dim-eq">=</div>
+        <div class="wall-subtotal">
+          <span class="num-sm">${calcWallPing(wall).toFixed(2)}</span><span class="unit-sm">坪</span>
+        </div>
+      </div>
+      ${walls.length > 1 ? `<button type="button" class="remove-wall-btn" data-remove-wall="${wall.id}" aria-label="刪除此牆面">✕</button>` : ''}
+    </div>
+  `).join('');
 }
 
 function avg(range){
@@ -1172,7 +1286,12 @@ function setQuoteDate(){
   const y = now.getFullYear();
   const m = String(now.getMonth()+1).padStart(2,'0');
   const d = String(now.getDate()).padStart(2,'0');
-  document.getElementById('quoteDate').textContent = `試算日期：${y}/${m}/${d}　長 ${ (parseFloat(document.getElementById('lengthInput').value)||0).toFixed(2) }m × 寬 ${ (parseFloat(document.getElementById('widthInput').value)||0).toFixed(2) }m ＝ ${getPing().toFixed(2)} 坪`;
+  const wallSummary = walls.map((w, i) => {
+    const l = (parseFloat(w.length)||0).toFixed(2);
+    const wd = (parseFloat(w.width)||0).toFixed(2);
+    return walls.length > 1 ? `牆${i+1} ${l}×${wd}m` : `${l}m × ${wd}m`;
+  }).join('、');
+  document.getElementById('quoteDate').textContent = `試算日期：${y}/${m}/${d}　${wallSummary}　總計 ${getPing().toFixed(2)} 坪`;
 }
 
 function sanitizeNumericInput(el){
@@ -1186,19 +1305,41 @@ function sanitizeNumericInput(el){
   }
 }
 
-document.getElementById('lengthInput').addEventListener('input', (e) => {
-  sanitizeNumericInput(e.target);
+function refreshAll(){
   renderPing();
   renderMatGrid();
   renderSummary();
   setQuoteDate();
+}
+
+document.getElementById('wallList').addEventListener('input', (e) => {
+  const target = e.target;
+  if(!target.matches('input[data-field]')) return;
+  sanitizeNumericInput(target);
+  const row = target.closest('.wall-row');
+  const wall = walls.find(w => w.id === row.getAttribute('data-wall-id'));
+  if(!wall) return;
+  wall[target.getAttribute('data-field')] = target.value;
+  const subtotalEl = row.querySelector('.wall-subtotal .num-sm');
+  if(subtotalEl) subtotalEl.textContent = calcWallPing(wall).toFixed(2);
+  refreshAll();
 });
-document.getElementById('widthInput').addEventListener('input', (e) => {
-  sanitizeNumericInput(e.target);
-  renderPing();
-  renderMatGrid();
-  renderSummary();
-  setQuoteDate();
+
+document.getElementById('wallList').addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-remove-wall]');
+  if(!btn) return;
+  walls = walls.filter(w => w.id !== btn.getAttribute('data-remove-wall'));
+  if(walls.length === 0){
+    walls.push(createWall());
+  }
+  renderWalls();
+  refreshAll();
+});
+
+document.getElementById('addWallBtn').addEventListener('click', () => {
+  walls.push(createWall());
+  renderWalls();
+  refreshAll();
 });
 
 document.getElementById('taxToggle').addEventListener('change', () => {
@@ -1211,6 +1352,7 @@ document.getElementById('printBtn').addEventListener('click', () => {
   window.print();
 });
 
+renderWalls();
 renderMatGrid();
 renderSummary();
 renderPing();
