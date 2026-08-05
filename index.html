@@ -925,7 +925,7 @@
       </div>
     </div>
 
-    <div class="summary-note">＊塗料與底漆每桶皆內含調色費 $100/桶（另計，已計入下方總計金額中）；波波石為天然石粉現成材質、萬用不帶砂底漆為現成色，皆無需調色，故不加收調色費。桶數計算採用區間平均值，並向上取整（無法購買非整數桶裝）。同一施作範圍若選擇多款需要相同底漆的材料，底漆僅依總坪數計算一次，不重複加總。實際施作面積會因牆況、底材吸收度略有差異，建議預留 5–10% 餘量。</div>
+    <div class="summary-note">＊塗料與底漆每桶皆內含調色費 $100/桶（另計，已計入下方總計金額中）；波波石為天然石粉現成材質、萬用底漆（透明）為現成色，皆無需調色，故不加收調色費。桶數計算採用區間平均值，並向上取整（無法購買非整數桶裝）。同一施作範圍若選擇多款需要相同底漆的材料，底漆僅依總坪數計算一次，不重複加總。實際施作面積會因牆況、底材吸收度略有差異，建議預留 5–10% 餘量。</div>
 
     <div class="print-btn-row">
       <button class="print-btn" id="printBtn" type="button">
@@ -1004,7 +1004,7 @@ const materials = [
     primer: 'nosand',
     methods: {
       roll: { label:'滾塗', range:[8,10], coats:'2道', price:2800 },
-      spray: { label:'噴塗', range:[7,10], coats:'2道', price:2800 }
+      spray: { label:'噴塗', range:[10,12], coats:'2道', price:2800 }
     }
   },
   {
@@ -1054,7 +1054,7 @@ const primers = {
     price: 2500
   },
   nosand: {
-    name: '萬用不帶砂底漆',
+    name: '萬用底漆（透明）',
     enName: '膚感專用底漆',
     note: '細緻無砂配方，提升親膚質感漆面附著力',
     bucketWeight: '10kg',
