@@ -925,7 +925,7 @@
       </div>
     </div>
 
-    <div class="summary-note">＊塗料與底漆每桶皆內含調色費 $100/桶（另計，已計入下方總計金額中）；波波石為天然石粉現成材質，無需調色，故不加收調色費。桶數計算採用區間平均值，並向上取整（無法購買非整數桶裝）。同一施作範圍若選擇多款需要相同底漆的材料，底漆僅依總坪數計算一次，不重複加總。實際施作面積會因牆況、底材吸收度略有差異，建議預留 5–10% 餘量。</div>
+    <div class="summary-note">＊塗料與底漆每桶皆內含調色費 $100/桶（另計，已計入下方總計金額中）；波波石為天然石粉現成材質、萬用不帶砂底漆為現成色，皆無需調色，故不加收調色費。桶數計算採用區間平均值，並向上取整（無法購買非整數桶裝）。同一施作範圍若選擇多款需要相同底漆的材料，底漆僅依總坪數計算一次，不重複加總。實際施作面積會因牆況、底材吸收度略有差異，建議預留 5–10% 餘量。</div>
 
     <div class="print-btn-row">
       <button class="print-btn" id="printBtn" type="button">
@@ -1001,7 +1001,7 @@ const materials = [
     zh: '膚感',
     tags: '超高耐擦洗乳膠漆・橘皮紋・親膚質感',
     bucketWeight: '7.5kg',
-    primer: 'alkali',
+    primer: 'nosand',
     methods: {
       roll: { label:'滾塗', range:[8,10], coats:'2道', price:2800 },
       spray: { label:'噴塗', range:[7,10], coats:'2道', price:2800 }
@@ -1052,6 +1052,16 @@ const primers = {
     range: [10,10],
     coats: '1道',
     price: 2500
+  },
+  nosand: {
+    name: '萬用不帶砂底漆',
+    enName: '膚感專用底漆',
+    note: '細緻無砂配方，提升親膚質感漆面附著力',
+    bucketWeight: '10kg',
+    range: [18,18],
+    coats: '1道',
+    price: 1800,
+    noColorFee: true
   }
 };
 
@@ -1296,13 +1306,16 @@ function renderSummary(){
       const p = primers[key];
       const buckets = calcBuckets(ping, p.range);
       const subtotal = buckets * p.price;
-      const colorFee = buckets * COLOR_FEE_PER_BUCKET;
+      const colorFee = p.noColorFee ? 0 : buckets * COLOR_FEE_PER_BUCKET;
       const t = subtotal + colorFee;
+      const detailText = p.noColorFee
+        ? `${buckets} 桶 × $${p.price.toLocaleString()}　（現成色，無需調色費）`
+        : `${buckets} 桶 × $${p.price.toLocaleString()}　＋　調色費 $${colorFee.toLocaleString()}（$100/桶，另計）`;
       primerHtml += `
         <div class="summary-row primer-row">
           <div>
             <div class="s-name">${p.name}　<span style="font-size:11px;color:#948C7E;">底漆</span></div>
-            <div class="s-detail">${buckets} 桶 × $${p.price.toLocaleString()}　＋　調色費 $${colorFee.toLocaleString()}（$100/桶，另計）</div>
+            <div class="s-detail">${detailText}</div>
           </div>
           <div class="s-price">$${t.toLocaleString()}</div>
         </div>
@@ -1337,7 +1350,7 @@ function calcPrimerTotal(){
   getRequiredPrimers().forEach(key => {
     const p = primers[key];
     const buckets = calcBuckets(ping, p.range);
-    const colorFee = buckets * COLOR_FEE_PER_BUCKET;
+    const colorFee = p.noColorFee ? 0 : buckets * COLOR_FEE_PER_BUCKET;
     primerTotal += (buckets * p.price) + colorFee;
   });
   return primerTotal;
@@ -1359,8 +1372,12 @@ function renderPrimers(){
     const p = primers[key];
     const buckets = calcBuckets(ping, p.range);
     const subtotal = buckets * p.price;
-    const colorFee = buckets * COLOR_FEE_PER_BUCKET;
+    const colorFee = p.noColorFee ? 0 : buckets * COLOR_FEE_PER_BUCKET;
     const total = subtotal + colorFee;
+
+    const colorFeeLineHtml = p.noColorFee
+      ? `<div class="price-line"><span class="lbl">調色費</span><span class="val">無需調色（現成色）</span></div>`
+      : `<div class="price-line"><span class="lbl">調色費（${buckets}桶 × $100，另計）</span><span class="val">$${colorFee.toLocaleString()}</span></div>`;
 
     html += `
       <div class="mat-card primer-card active">
@@ -1376,7 +1393,7 @@ function renderPrimers(){
           <div class="bucket-line">${ping > 0 ? `所需桶數：<b>${buckets}</b> 桶（依 ${ping.toFixed(2)} 坪計算）` : '請先於上方填寫坪數'}</div>
           <div class="price-line"><span class="lbl">單價 / 桶</span><span class="val">$${p.price.toLocaleString()}</span></div>
           <div class="price-line"><span class="lbl">底漆小計（${buckets}桶）</span><span class="val">$${subtotal.toLocaleString()}</span></div>
-          <div class="price-line"><span class="lbl">調色費（${buckets}桶 × $100，另計）</span><span class="val">$${colorFee.toLocaleString()}</span></div>
+          ${colorFeeLineHtml}
           <div class="price-line" style="border-top:1px solid var(--line); margin-top:8px; padding-top:10px;"><span class="lbl"><b>底漆合計</b></span><span class="val" style="color:var(--orange); font-size:18px;">$${total.toLocaleString()}</span></div>
         </div>
       </div>
