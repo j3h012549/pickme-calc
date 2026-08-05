@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pickme 材料試算 / Color Easy Life Cozy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Noto+Sans+TC:wght@400;500;600;700&display=swap');
+
+  :root{
+    --bg: #EDEAE1;
+    --bg-card: #F8F6F1;
+    --ink: #2B2722;
+    --ink-soft: #6B6459;
+    --line: #D9D3C5;
+    --line-strong: #BDB6A6;
+    --orange: #D95C10;
+    --orange-soft: #F1D9C7;
+    --white: #FFFFFF;
+  }
+
+  *{ box-sizing: border-box; }
+
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Noto Sans TC', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap{
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 32px 16px 60px;
+  }
+
+  @media (min-width: 721px){
+    .wrap{ padding: 56px 28px 80px; }
+  }
+
+  /* ---------- Header ---------- */
+  .head{
+    text-align:center;
+    margin-bottom: 36px;
+  }
+  .head .eyebrow{
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--orange);
+    letter-spacing: 0.12em;
+    margin-bottom: 12px;
+  }
+  .head h1{
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 600;
+    font-size: clamp(26px, 6vw, 42px);
+    margin: 0 0 10px;
+    letter-spacing: 0.04em;
+  }
+  .head p{
+    color: var(--ink-soft);
+    font-size: 13.5px;
+    line-height: 1.9;
+    margin: 0;
+  }
+
+  @media (min-width: 721px){
+    .head{ margin-bottom: 56px; }
+    .head .eyebrow{ font-size: 15px; margin-bottom: 14px; }
+    .head p{ font-size: 14.5px; }
+  }
+
+  .brand-logo-top{
+    display: block;
+    height: 44px;
+    width: auto;
+    margin: 0 auto 18px;
+  }
+  @media (min-width: 721px){
+    .brand-logo-top{ height: 58px; margin-bottom: 22px; }
+  }
+
+  /* ---------- Section shell ---------- */
+  .section{
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    padding: 28px 18px 30px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  @media (min-width: 721px){
+    .section{ padding: 36px 36px 40px; margin-bottom: 28px; }
+  }
+  .section-num{
+    position:absolute;
+    top: -14px;
+    left: 18px;
+    background: var(--ink);
+    color: var(--bg-card);
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 13px;
+    padding: 5px 14px;
+    letter-spacing: 0.06em;
+  }
+  @media (min-width: 721px){
+    .section-num{ top: -16px; left: 32px; }
+  }
+  .section-title{
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 600;
+    font-size: 18px;
+    margin: 8px 0 4px;
+    letter-spacing: 0.03em;
+  }
+  .section-sub{
+    color: var(--ink-soft);
+    font-size: 12.5px;
+    margin: 0 0 22px;
+    line-height: 1.7;
+  }
+  @media (min-width: 721px){
+    .section-title{ font-size: 19px; }
+    .section-sub{ font-size: 13px; margin-bottom: 28px; }
+  }
+
+  /* ---------- Step 1: dimensions (multi-wall) ---------- */
+  .wall-list{
+    display:flex;
+    flex-direction:column;
+    gap: 18px;
+  }
+  .wall-row{
+    display:flex;
+    align-items:flex-start;
+    gap: 10px;
+    padding-bottom: 18px;
+    border-bottom: 1px dashed var(--line);
+  }
+  .wall-row:last-child{
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .wall-index{
+    width: 100%;
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--orange);
+    letter-spacing: 0.05em;
+    margin-bottom: 2px;
+  }
+  .wall-fields{
+    display:flex;
+    align-items:center;
+    gap: 12px;
+    flex-wrap: wrap;
+    flex: 1;
+  }
+  .dim-field{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .dim-field label{
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    letter-spacing: 0.04em;
+  }
+  .dim-field input{
+    width: 100px;
+    padding: 11px 12px;
+    font-size: 16px;
+    border: 1px solid var(--line-strong);
+    border-radius: 1px;
+    background: var(--white);
+    color: var(--ink);
+    font-family: 'Noto Sans TC', sans-serif;
+  }
+  @media (min-width: 480px){
+    .dim-field input{ width: 130px; padding: 12px 14px; font-size: 17px; }
+    .dim-field label{ font-size: 12.5px; }
+  }
+  .dim-field input:focus{
+    outline: none;
+    border-color: var(--orange);
+  }
+  .dim-x{
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--line-strong);
+    padding-top: 20px;
+  }
+  .dim-eq{
+    font-size: 16px;
+    color: var(--line-strong);
+    padding-top: 20px;
+  }
+  .wall-subtotal{
+    display:flex;
+    align-items:baseline;
+    gap: 4px;
+    padding-top: 20px;
+  }
+  .wall-subtotal .num-sm{
+    font-family: 'Noto Serif TC', serif;
+    font-weight:600;
+    font-size: 18px;
+    color: var(--ink-soft);
+  }
+  .wall-subtotal .unit-sm{
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+  .remove-wall-btn{
+    flex-shrink:0;
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--line-strong);
+    background: var(--white);
+    color: var(--ink-soft);
+    font-size: 13px;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: 50%;
+    margin-top: 20px;
+    transition: all 0.15s ease;
+  }
+  .remove-wall-btn:hover{
+    border-color: var(--orange);
+    color: var(--orange);
+  }
+  .add-wall-btn{
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: 1px dashed var(--line-strong);
+    background: transparent;
+    color: var(--ink-soft);
+    font-size: 13px;
+    font-family: 'Noto Sans TC', sans-serif;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .add-wall-btn:hover{
+    border-color: var(--orange);
+    border-style: solid;
+    color: var(--orange);
+  }
+  .dim-total-row{
+    margin-top: 26px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    display:flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .dim-total-lbl{
+    font-size: 13px;
+    color: var(--ink-soft);
+    letter-spacing: 0.04em;
+  }
+  .dim-total-row .num{
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 700;
+    font-size: 30px;
+    color: var(--orange);
+  }
+  .dim-total-row .unit{
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+  .dim-hint{
+    margin-top:16px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    border-top: 1px dashed var(--line);
+    padding-top: 14px;
+  }
+
+  /* ---------- Step 2: materials ---------- */
+  .mat-grid{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 720px){
+    .mat-grid{ grid-template-columns: 1fr; }
+  }
+
+  .primer-divider{
+    display:flex;
+    align-items:center;
+    gap: 12px;
+    margin: 28px 0 16px;
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--orange);
+    letter-spacing: 0.06em;
+  }
+  .primer-divider::after{
+    content:'';
+    flex:1;
+    height:1px;
+    background: var(--line-strong);
+  }
+  .primer-card{
+    background: var(--orange-soft);
+    border-color: var(--orange);
+  }
+
+  .mat-card{
+    border: 1px solid var(--line);
+    background: var(--white);
+    padding: 16px 16px 16px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  @media (min-width: 721px){
+    .mat-card{ padding: 20px 20px 18px; }
+  }
+  .mat-card.active{
+    border-color: var(--orange);
+    box-shadow: 0 0 0 1px var(--orange) inset;
+  }
+  .mat-top{
+    display:flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+  }
+  .mat-name-group{
+    display:flex;
+    flex-direction: column;
+  }
+  .mat-en{
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--orange);
+    letter-spacing: 0.08em;
+    margin-bottom: 2px;
+  }
+  .mat-zh{
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 600;
+    font-size: 19px;
+    letter-spacing: 0.02em;
+  }
+  .mat-tags{
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    margin-top: 6px;
+    line-height: 1.6;
+  }
+  .primer-note{
+    font-size: 11px;
+    color: var(--orange);
+    margin-top: 8px;
+    line-height: 1.6;
+  }
+  .primer-note b{
+    font-weight: 600;
+  }
+  .checkbox{
+    width: 22px;
+    height: 22px;
+    border: 1.5px solid var(--line-strong);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 4px;
+    position: relative;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .mat-card.active .checkbox{
+    border-color: var(--orange);
+    background: var(--orange);
+  }
+  .mat-card.active .checkbox::after{
+    content:'';
+    position:absolute;
+    top:50%; left:50%;
+    width:7px; height:7px;
+    background: var(--white);
+    border-radius:50%;
+    transform: translate(-50%,-50%);
+  }
+
+  .mat-detail{
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    display: none;
+  }
+  .mat-card.active .mat-detail{
+    display: block;
+  }
+
+  .method-row{
+    display:flex;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .method-btn{
+    flex:1;
+    text-align:center;
+    padding: 9px 10px;
+    border: 1px solid var(--line-strong);
+    background: var(--bg-card);
+    font-size: 13px;
+    color: var(--ink-soft);
+    cursor:pointer;
+    transition: all 0.15s ease;
+  }
+  .method-btn.selected{
+    border-color: var(--orange);
+    background: var(--orange);
+    color: var(--white);
+  }
+  .method-btn.disabled{
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+  .method-spec{
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+  .method-spec b{
+    color: var(--ink);
+  }
+  .price-line{
+    margin-top: 12px;
+    display:flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 13.5px;
+  }
+  .price-line .lbl{ color: var(--ink-soft); }
+  .price-line .val{
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 600;
+    font-size: 16px;
+  }
+  .bucket-line{
+    margin-top: 6px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .bucket-line b{
+    color: var(--orange);
+    font-family: 'Noto Serif TC', serif;
+  }
+
+  /* ---------- Summary ---------- */
+  .summary{
+    background: var(--ink);
+    color: var(--bg-card);
+    border-radius: 2px;
+    padding: 28px 18px 26px;
+  }
+  @media (min-width: 721px){
+    .summary{ padding: 36px 36px 32px; }
+  }
+  .summary-title{
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 600;
+    font-size: 18px;
+    margin: 0 0 4px;
+    letter-spacing: 0.03em;
+  }
+  .summary-sub{
+    font-size: 12px;
+    color: #B8B0A2;
+    margin-bottom: 22px;
+  }
+  .summary-empty{
+    color: #948C7E;
+    font-size: 13.5px;
+    padding: 12px 0;
+    font-style: italic;
+  }
+  .summary-row{
+    display:flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #45403A;
+    font-size: 13.5px;
+    align-items: baseline;
+  }
+  .summary-row .s-name{
+    font-family: 'Noto Serif TC', serif;
+    font-size: 15px;
+  }
+  .summary-row .s-detail{
+    color: #B8B0A2;
+    font-size: 12px;
+    margin-top: 3px;
+  }
+  .summary-row .s-price{
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 600;
+    font-size: 15px;
+    white-space: nowrap;
+  }
+  .primer-row{
+    opacity: 0.85;
+  }
+  .primer-row .s-name{
+    font-size: 13.5px;
+    color: #D3CCBE;
+  }
+  .summary-total{
+    display:flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-top: 22px;
+    margin-top: 6px;
+  }
+  .summary-total .t-lbl{
+    font-size: 14px;
+    color: #B8B0A2;
+    letter-spacing: 0.05em;
+  }
+  .summary-total .t-val{
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 700;
+    font-size: 30px;
+    color: var(--orange);
+  }
+  .summary-note{
+    margin-top: 14px;
+    font-size: 11.5px;
+    color: #948C7E;
+    line-height: 1.7;
+  }
+
+  .footer-tag{
+    text-align:center;
+    margin-top: 40px;
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: 12.5px;
+    letter-spacing: 0.1em;
+  }
+
+  /* ---------- Tax toggle ---------- */
+  .tax-toggle-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top: 18px;
+    font-size: 12.5px;
+    color:#B8B0A2;
+  }
+  .tax-switch{
+    position:relative;
+    width:38px;
+    height:22px;
+    flex-shrink:0;
+    display:inline-block;
+  }
+  .tax-switch input{
+    opacity:0;
+    width:0;
+    height:0;
+  }
+  .tax-switch .slider{
+    position:absolute;
+    cursor:pointer;
+    top:0;left:0;right:0;bottom:0;
+    background:#45403A;
+    transition:.15s;
+    border-radius:22px;
+  }
+  .tax-switch .slider::before{
+    content:'';
+    position:absolute;
+    height:16px;width:16px;
+    left:3px;bottom:3px;
+    background:#F8F6F1;
+    transition:.15s;
+    border-radius:50%;
+  }
+  .tax-switch input:checked + .slider{
+    background: var(--orange);
+  }
+  .tax-switch input:checked + .slider::before{
+    transform: translateX(16px);
+  }
+  .tax-detail{
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px dashed #45403A;
+  }
+  .tax-line{
+    display:flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 6px 0;
+    font-size: 13.5px;
+    color:#B8B0A2;
+  }
+  .tax-line-final{
+    margin-top: 4px;
+    padding-top: 12px;
+    border-top: 1px solid #45403A;
+  }
+  .tax-line-final .tax-lbl{
+    color: var(--bg-card);
+    font-size:14px;
+    letter-spacing: 0.05em;
+  }
+  .tax-line-final .tax-val{
+    font-family: 'Noto Serif TC', serif;
+    font-weight:700;
+    font-size:26px;
+    color: var(--orange);
+  }
+
+  /* ---------- Print / export button ---------- */
+  .print-btn-row{
+    margin-top: 20px;
+    display:flex;
+    justify-content: flex-end;
+  }
+  .print-btn{
+    display:inline-flex;
+    align-items:center;
+    gap: 8px;
+    background: var(--orange);
+    color: var(--white);
+    border: none;
+    padding: 12px 22px;
+    font-size: 13.5px;
+    font-family: 'Noto Sans TC', sans-serif;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+  }
+  .print-btn:hover{ opacity: 0.85; }
+  .print-btn svg{ width:15px; height:15px; flex-shrink:0; }
+  .print-btn.disabled{
+    background: #45403A;
+    color: #948C7E;
+    cursor: not-allowed;
+  }
+
+  /* ---------- Print quote header (hidden on screen) ---------- */
+  .quote-print-head{
+    display:none;
+  }
+
+  /* ---------- Print media styles ---------- */
+  @media print{
+    body{ background: #FFFFFF; }
+    .wrap{ max-width: none; padding: 0; }
+    .head, .print-btn-row, .footer-tag{ display:none; }
+    .section{ border: none; padding: 0; margin-bottom: 26px; box-shadow:none; }
+    .section-num{ display:none; }
+    .section-title{ font-size: 15px; border-bottom: 1px solid #999; padding-bottom: 8px; }
+    .section-sub{ display:none; }
+
+    /* Step 1 (dimension input) is replaced by the printed header line, hide the editable block */
+    .dim-section{ display:none; }
+
+    .quote-print-head{
+      display:block;
+      text-align:center;
+      margin-bottom: 28px;
+      padding-bottom: 18px;
+      border-bottom: 2px solid #2B2722;
+    }
+    .quote-print-head .qp-eyebrow{
+      font-family: 'EB Garamond', serif;
+      font-style: italic;
+      font-size: 13px;
+      color: #D95C10;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+    .quote-print-head h2{
+      font-family: 'Noto Serif TC', serif;
+      font-size: 24px;
+      margin: 0 0 6px;
+    }
+    .quote-print-head .qp-date{
+      font-size: 11.5px;
+      color: #6B6459;
+    }
+
+    .mat-section .section-title{ font-size:15px; }
+    .mat-section .section-title{ font-size: 0; }
+    .mat-section .section-title::before{
+      content: '報價明細';
+      font-size: 15px;
+    }
+
+    /* hide unselected / collapsed material cards entirely when printing */
+    .mat-grid{ grid-template-columns: 1fr; gap: 10px; }
+    .mat-card{ border: 1px solid #ccc; padding: 14px 16px; break-inside: avoid; }
+    .mat-card:not(.active){ display:none; }
+    .checkbox{ display:none; }
+    .mat-top{ cursor: default; }
+    .method-row{ display:none; }
+    .mat-detail{ display:block !important; border-top:none; margin-top:8px; padding-top:8px; }
+
+    .primer-divider{ color:#D95C10; margin: 18px 0 10px; }
+    .primer-divider::after{ background:#ccc; }
+    .primer-card{ background:#fff; border-color:#D95C10 !important; }
+
+    .summary{ background:#fff; color:#2B2722; padding:0; }
+    .summary-title, .summary-sub, #summaryList{ display:none; }
+    .summary-total{ border-top: 2px solid #2B2722; }
+    .summary-total .t-val{ color:#D95C10; }
+    .summary-note{ color:#6B6459; }
+
+    .quote-print-foot{
+      display:block;
+      margin-top: 40px;
+      padding-top: 16px;
+      border-top: 1px dashed #ccc;
+      font-size: 11px;
+      color: #6B6459;
+      text-align:center;
+    }
+
+    .brand-logo-top{ height: 40px; }
+    .tax-toggle-row{ display:none !important; }
+    .tax-detail{ border-top: 1px dashed #ccc; }
+    .tax-line{ color:#6B6459; }
+    .tax-line-final{ border-top: 1px solid #2B2722; }
+    .tax-line-final .tax-lbl{ color:#2B2722; }
+    .tax-line-final .tax-val{ color:#D95C10; }
+  }
+  .quote-print-foot{ display:none; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="quote-print-head">
+    <div class="qp-eyebrow">/ Color Easy Life Cozy</div>
+    <h2>Pickme 材料試算報價單</h2>
+    <div class="qp-date" id="quoteDate"></div>
+  </div>
+
+  <div class="head">
+    <img class="brand-logo-top" src="data:image/png;base64,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" alt="Pick me Logo">
+    <div class="eyebrow">/ Color Easy Life Cozy</div>
+    <h1>材料試算工具</h1>
+    <p>輸入施作坪數，挑選喜歡的質感漆款，<br>立即估算所需桶數與總費用。</p>
+  </div>
+
+  <!-- Step 1 -->
+  <div class="section dim-section">
+    <div class="section-num">01</div>
+    <div class="section-title">填寫施作坪數</div>
+    <div class="section-sub">輸入牆面長寬（公尺），可新增多面牆，系統自動加總換算坪數</div>
+
+    <div class="wall-list" id="wallList"></div>
+
+    <button type="button" class="add-wall-btn" id="addWallBtn">＋ 新增牆面</button>
+
+    <div class="dim-total-row">
+      <span class="dim-total-lbl">總坪數</span>
+      <span class="dim-eq">=</span>
+      <span class="num" id="pingResult">0.00</span>
+      <span class="unit">坪</span>
+    </div>
+
+    <div class="dim-hint">1坪 ＝ 3.30578 平方公尺。換算公式：長（m）× 寬（m） ÷ 3.30578；多面牆會將各面坪數加總計算。</div>
+  </div>
+
+  <!-- Step 2 -->
+  <div class="section mat-section">
+    <div class="section-num">02</div>
+    <div class="section-title">挑選材料與施工方式</div>
+    <div class="section-sub">點選材料卡片展開，選擇施工方式。系統會依所選材料自動加上所需底漆</div>
+
+    <div class="mat-grid" id="matGrid"></div>
+    <div id="primerSection"></div>
+  </div>
+
+  <!-- Summary -->
+  <div class="summary" id="summaryBox">
+    <div class="summary-title">試算結果</div>
+    <div class="summary-sub">已選材料明細</div>
+    <div id="summaryList"></div>
+    <div class="summary-total">
+      <span class="t-lbl">未稅總計</span>
+      <span class="t-val" id="totalVal">$0</span>
+    </div>
+
+    <div class="tax-toggle-row" id="taxToggleRow">
+      <label class="tax-switch">
+        <input type="checkbox" id="taxToggle">
+        <span class="slider"></span>
+      </label>
+      <span>加收 5% 稅金（如需開立發票／收據請勾選）</span>
+    </div>
+
+    <div class="tax-detail" id="taxDetail" style="display:none;">
+      <div class="tax-line">
+        <span class="tax-lbl">稅金（未稅總計 × 5%）</span>
+        <span class="tax-val" id="taxVal">$0</span>
+      </div>
+      <div class="tax-line tax-line-final">
+        <span class="tax-lbl">含稅總計</span>
+        <span class="tax-val" id="totalValTax">$0</span>
+      </div>
+    </div>
+
+    <div class="summary-note">＊塗料與底漆每桶皆內含調色費 $100/桶（另計，已計入下方總計金額中）；波波石為天然石粉現成材質，無需調色，故不加收調色費。桶數計算採用區間平均值，並向上取整（無法購買非整數桶裝）。同一施作範圍若選擇多款需要相同底漆的材料，底漆僅依總坪數計算一次，不重複加總。實際施作面積會因牆況、底材吸收度略有差異，建議預留 5–10% 餘量。</div>
+
+    <div class="print-btn-row">
+      <button class="print-btn" id="printBtn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+        列印 / 匯出報價單
+      </button>
+    </div>
+
+    <div class="quote-print-foot">此報價單由 Pickme 材料試算工具自動產生，僅供參考，實際施作面積與用量請現場確認為準。</div>
+  </div>
+
+  <div class="footer-tag">Pickme 獨家 30 母色 × 4 階色階調色技術</div>
+
+</div>
+
+<script>
+const PING_PER_SQM = 3.30578;
+const COLOR_FEE_PER_BUCKET = 100;
+
+const materials = [
+  {
+    id: 'stardust',
+    en: 'STARDUST',
+    zh: '星雲紗',
+    tags: '珠光礦物質感漆・高耐刮・好清潔',
+    bucketWeight: '2.5kg',
+    primer: 'alkali',
+    methods: {
+      batch: { label:'批塗', range:[1.5,2], coats:'2道', price:2300 },
+      brush: { label:'刷塗', range:[5,5], coats:'1道', price:2300 }
+    }
+  },
+  {
+    id: 'whisper',
+    en: 'STELLAR WHISPER',
+    zh: '白辰微光',
+    tags: '霧面流沙質感漆・高耐刮・好清潔',
+    bucketWeight: '2.5kg',
+    primer: 'alkali',
+    methods: {
+      batch: { label:'批塗', range:[2.5,3], coats:'2道', price:3200 },
+      brush: { label:'刷塗', range:[3,3.5], coats:'2道', price:3200 }
+    }
+  },
+  {
+    id: 'hazy',
+    en: 'HAZY',
+    zh: '織雲紗',
+    tags: '絲綢珠光質感漆・耐指刮・好清潔',
+    bucketWeight: '2.5kg',
+    primer: 'alkali',
+    methods: {
+      batch: { label:'批塗', range:[3,3], coats:'2道', price:3200 },
+      brush: { label:'刷塗', range:[3,3.5], coats:'2道', price:3200 }
+    }
+  },
+  {
+    id: 'velmist',
+    en: 'VELMIST',
+    zh: '雲絨漆',
+    tags: '麂皮質感肌理・耐指刮・防潑水',
+    bucketWeight: '2.5kg',
+    primer: 'alkali',
+    methods: {
+      brush: { label:'刷塗', range:[3,3.5], coats:'2道', price:3200 }
+    }
+  },
+  {
+    id: 'softtouch',
+    en: 'SOFT TOUCH',
+    zh: '膚感',
+    tags: '超高耐擦洗乳膠漆・橘皮紋・親膚質感',
+    bucketWeight: '7.5kg',
+    primer: 'alkali',
+    methods: {
+      roll: { label:'滾塗', range:[8,10], coats:'2道', price:2800 },
+      spray: { label:'噴塗', range:[7,10], coats:'2道', price:2800 }
+    }
+  },
+  {
+    id: 'scratchproof',
+    en: 'SCRATCH-PROOF',
+    zh: '曜盾',
+    tags: '炭晶顆粒礦物漆・蛋殼光澤・超高耐刮',
+    bucketWeight: '7.5kg',
+    primer: 'alkali',
+    methods: {
+      roll: { label:'滾塗', range:[7,8], coats:'2道', price:2500 },
+      spray: { label:'噴塗', range:[8,9], coats:'2道', price:2500 }
+    }
+  },
+  {
+    id: 'bobostone',
+    en: 'BOBO STONE',
+    zh: '波波石',
+    tags: '水磨石紋理・天然石粉配製・高耐磨',
+    bucketWeight: '25kg',
+    primer: 'sand',
+    noColorFee: true,
+    methods: {
+      batch: { label:'批塗', range:[3,3.5], coats:'2道', price:3300 }
+    }
+  }
+];
+
+// primer (底漆) catalogue
+const primers = {
+  alkali: {
+    name: '抗鹼細砂底漆',
+    enName: 'Pickme 專用底漆',
+    note: '細微顆粒增加牆面與材料附著',
+    bucketWeight: '2.5kg',
+    range: [6,6],
+    coats: '1道',
+    price: 900
+  },
+  sand: {
+    name: '萬用帶砂底漆',
+    enName: '波波石專用底漆',
+    note: '帶砂顆粒，提升人造石材附著力',
+    bucketWeight: '10kg',
+    range: [10,10],
+    coats: '1道',
+    price: 2500
+  }
+};
+
+// state: { [matId]: 'batch' | 'brush' | null }
+const state = {};
+materials.forEach(m => state[m.id] = null);
+
+const TAX_RATE = 0.05;
+let currentGrandTotal = 0;
+
+// ---------- Multi-wall dimension state ----------
+let walls = [];
+let wallIdCounter = 0;
+
+function createWall(length, width){
+  wallIdCounter += 1;
+  return { id: 'wall-' + wallIdCounter, length: length || '', width: width || '' };
+}
+
+walls.push(createWall());
+
+function calcWallPing(wall){
+  const l = parseFloat(wall.length) || 0;
+  const w = parseFloat(wall.width) || 0;
+  return (l * w) / PING_PER_SQM;
+}
+
+function getPing(){
+  return walls.reduce((sum, w) => sum + calcWallPing(w), 0);
+}
+
+function renderWalls(){
+  const container = document.getElementById('wallList');
+  container.innerHTML = walls.map((wall, idx) => `
+    <div class="wall-row" data-wall-id="${wall.id}">
+      ${walls.length > 1 ? `<div class="wall-index">牆面 ${idx + 1}</div>` : ''}
+      <div class="wall-fields">
+        <div class="dim-field">
+          <label>長 LENGTH（公尺）</label>
+          <input type="text" inputmode="decimal" pattern="[0-9]*\\.?[0-9]*" data-field="length" value="${wall.length}" placeholder="0.0">
+        </div>
+        <div class="dim-x">×</div>
+        <div class="dim-field">
+          <label>寬 / 高 WIDTH（公尺）</label>
+          <input type="text" inputmode="decimal" pattern="[0-9]*\\.?[0-9]*" data-field="width" value="${wall.width}" placeholder="0.0">
+        </div>
+        <div class="dim-eq">=</div>
+        <div class="wall-subtotal">
+          <span class="num-sm">${calcWallPing(wall).toFixed(2)}</span><span class="unit-sm">坪</span>
+        </div>
+      </div>
+      ${walls.length > 1 ? `<button type="button" class="remove-wall-btn" data-remove-wall="${wall.id}" aria-label="刪除此牆面">✕</button>` : ''}
+    </div>
+  `).join('');
+}
+
+function avg(range){
+  return (range[0] + range[1]) / 2;
+}
+
+function calcBuckets(ping, range){
+  const a = avg(range);
+  if(a <= 0) return 0;
+  return Math.ceil(ping / a);
+}
+
+// determine which primers are needed based on currently selected materials
+function getRequiredPrimers(){
+  const neededTypes = new Set();
+  materials.forEach(m => {
+    if(state[m.id] && m.primer){
+      neededTypes.add(m.primer);
+    }
+  });
+  return Array.from(neededTypes);
+}
+
+function renderMatGrid(){
+  const grid = document.getElementById('matGrid');
+  grid.innerHTML = '';
+  const METHOD_LABELS = { batch:'批塗', brush:'刷塗', roll:'滾塗', spray:'噴塗' };
+  const ALL_METHOD_KEYS = ['batch','brush','roll','spray'];
+
+  materials.forEach(m => {
+    const card = document.createElement('div');
+    card.className = 'mat-card' + (state[m.id] ? ' active' : '');
+    card.id = 'card-' + m.id;
+
+    const availableKeys = ALL_METHOD_KEYS.filter(k => !!m.methods[k]);
+
+    let methodButtonsHtml = '';
+    availableKeys.forEach(key => {
+      const isSelected = state[m.id] === key;
+      methodButtonsHtml += `<div class="method-btn ${isSelected?'selected':''}" data-mat="${m.id}" data-method="${key}">${METHOD_LABELS[key]}</div>`;
+    });
+
+    let detailSpecHtml = '';
+    let priceLineHtml = '';
+    let bucketLineHtml = '';
+    let primerNoteHtml = '';
+
+    if(m.primer){
+      const p = primers[m.primer];
+      primerNoteHtml = `<div class="primer-note">＊需搭配 <b>${p.name}</b> 使用</div>`;
+    }
+
+    if(state[m.id]){
+      const method = m.methods[state[m.id]];
+      const ping = getPing();
+      const buckets = calcBuckets(ping, method.range);
+      const subtotal = buckets * method.price;
+      const colorFee = m.noColorFee ? 0 : buckets * COLOR_FEE_PER_BUCKET;
+      const total = subtotal + colorFee;
+
+      detailSpecHtml = `用量：每桶（${m.bucketWeight}）可施作 <b>${method.range[0]}${method.range[1]!==method.range[0] ? '–'+method.range[1] : ''}坪</b>／${method.coats}`;
+
+      bucketLineHtml = ping > 0
+        ? `所需桶數：<b>${buckets}</b> 桶（依 ${ping.toFixed(2)} 坪計算）`
+        : `請先於上方填寫坪數`;
+
+      const colorFeeLineHtml = m.noColorFee
+        ? `<div class="price-line"><span class="lbl">調色費</span><span class="val">無需調色（現成色）</span></div>`
+        : `<div class="price-line"><span class="lbl">調色費（${buckets}桶 × $100，另計）</span><span class="val">$${colorFee.toLocaleString()}</span></div>`;
+
+      priceLineHtml = `
+        <div class="price-line"><span class="lbl">單價 / 桶</span><span class="val">$${method.price.toLocaleString()}</span></div>
+        <div class="price-line"><span class="lbl">材料小計（${buckets}桶）</span><span class="val">$${subtotal.toLocaleString()}</span></div>
+        ${colorFeeLineHtml}
+        <div class="price-line" style="border-top:1px solid var(--line); margin-top:8px; padding-top:10px;"><span class="lbl"><b>此材料合計</b></span><span class="val" style="color:var(--orange); font-size:18px;">$${total.toLocaleString()}</span></div>
+      `;
+    }
+
+    card.innerHTML = `
+      <div class="mat-top" data-toggle="${m.id}">
+        <div class="mat-name-group">
+          <div class="mat-en">${m.en}</div>
+          <div class="mat-zh">${m.zh}</div>
+          <div class="mat-tags">${m.tags}</div>
+          ${primerNoteHtml}
+        </div>
+        <div class="checkbox"></div>
+      </div>
+      <div class="mat-detail">
+        <div class="method-row">${methodButtonsHtml}</div>
+        <div class="method-spec">${detailSpecHtml}</div>
+        <div class="bucket-line">${bucketLineHtml}</div>
+        ${priceLineHtml}
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+
+  // bind events
+  document.querySelectorAll('[data-toggle]').forEach(el => {
+    el.addEventListener('click', () => {
+      const id = el.getAttribute('data-toggle');
+      if(state[id]){
+        state[id] = null;
+      } else {
+        const m = materials.find(x => x.id === id);
+        const firstMethod = Object.keys(m.methods)[0];
+        state[id] = firstMethod;
+      }
+      renderMatGrid();
+      renderSummary();
+    });
+  });
+
+  document.querySelectorAll('.method-btn:not(.disabled)').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const matId = el.getAttribute('data-mat');
+      const method = el.getAttribute('data-method');
+      state[matId] = method;
+      renderMatGrid();
+      renderSummary();
+    });
+  });
+}
+
+function renderSummary(){
+  renderPrimers();
+  const ping = getPing();
+  const list = document.getElementById('summaryList');
+  const totalEl = document.getElementById('totalVal');
+  const printBtn = document.getElementById('printBtn');
+
+  const selected = materials.filter(m => state[m.id]);
+
+  if(selected.length === 0){
+    list.innerHTML = `<div class="summary-empty">尚未選擇材料，請於上方挑選您喜歡的質感漆款。</div>`;
+    totalEl.textContent = '$0';
+    printBtn.classList.add('disabled');
+    printBtn.disabled = true;
+    currentGrandTotal = 0;
+    document.getElementById('taxToggleRow').style.display = 'none';
+    updateTaxDisplay();
+    return;
+  }
+
+  document.getElementById('taxToggleRow').style.display = 'flex';
+
+  printBtn.classList.remove('disabled');
+  printBtn.disabled = false;
+
+  let grandTotal = 0;
+  let html = '';
+
+  selected.forEach(m => {
+    const method = m.methods[state[m.id]];
+    const buckets = calcBuckets(ping, method.range);
+    const subtotal = buckets * method.price;
+    const colorFee = m.noColorFee ? 0 : buckets * COLOR_FEE_PER_BUCKET;
+    const total = subtotal + colorFee;
+    grandTotal += total;
+
+    const detailText = m.noColorFee
+      ? `${buckets} 桶 × $${method.price.toLocaleString()}　（現成色，無需調色費）`
+      : `${buckets} 桶 × $${method.price.toLocaleString()}　＋　調色費 $${colorFee.toLocaleString()}（$100/桶，另計）`;
+
+    html += `
+      <div class="summary-row">
+        <div>
+          <div class="s-name">${m.zh}　<span style="font-size:11px;color:#948C7E;">${method.label}</span></div>
+          <div class="s-detail">${detailText}</div>
+        </div>
+        <div class="s-price">$${total.toLocaleString()}</div>
+      </div>
+    `;
+  });
+
+  list.innerHTML = html;
+
+  // add primer cost into grand total, with a summary line
+  const primerTotal = calcPrimerTotal();
+  const requiredPrimerKeys = getRequiredPrimers();
+  if(primerTotal > 0){
+    let primerHtml = '';
+    requiredPrimerKeys.forEach(key => {
+      const p = primers[key];
+      const buckets = calcBuckets(ping, p.range);
+      const subtotal = buckets * p.price;
+      const colorFee = buckets * COLOR_FEE_PER_BUCKET;
+      const t = subtotal + colorFee;
+      primerHtml += `
+        <div class="summary-row primer-row">
+          <div>
+            <div class="s-name">${p.name}　<span style="font-size:11px;color:#948C7E;">底漆</span></div>
+            <div class="s-detail">${buckets} 桶 × $${p.price.toLocaleString()}　＋　調色費 $${colorFee.toLocaleString()}（$100/桶，另計）</div>
+          </div>
+          <div class="s-price">$${t.toLocaleString()}</div>
+        </div>
+      `;
+    });
+    list.innerHTML += primerHtml;
+    grandTotal += primerTotal;
+  }
+
+  totalEl.textContent = '$' + grandTotal.toLocaleString();
+  currentGrandTotal = grandTotal;
+  updateTaxDisplay();
+}
+
+function updateTaxDisplay(){
+  const toggle = document.getElementById('taxToggle');
+  const detail = document.getElementById('taxDetail');
+  if(!toggle.checked){
+    detail.style.display = 'none';
+    return;
+  }
+  const tax = Math.round(currentGrandTotal * TAX_RATE);
+  const withTax = currentGrandTotal + tax;
+  document.getElementById('taxVal').textContent = '$' + tax.toLocaleString();
+  document.getElementById('totalValTax').textContent = '$' + withTax.toLocaleString();
+  detail.style.display = 'block';
+}
+
+function calcPrimerTotal(){
+  const ping = getPing();
+  let primerTotal = 0;
+  getRequiredPrimers().forEach(key => {
+    const p = primers[key];
+    const buckets = calcBuckets(ping, p.range);
+    const colorFee = buckets * COLOR_FEE_PER_BUCKET;
+    primerTotal += (buckets * p.price) + colorFee;
+  });
+  return primerTotal;
+}
+
+function renderPrimers(){
+  const ping = getPing();
+  const box = document.getElementById('primerSection');
+  const requiredKeys = getRequiredPrimers();
+
+  if(requiredKeys.length === 0){
+    box.innerHTML = '';
+    return;
+  }
+
+  let html = `<div class="primer-divider">必備底漆</div><div class="mat-grid primer-grid">`;
+
+  requiredKeys.forEach(key => {
+    const p = primers[key];
+    const buckets = calcBuckets(ping, p.range);
+    const subtotal = buckets * p.price;
+    const colorFee = buckets * COLOR_FEE_PER_BUCKET;
+    const total = subtotal + colorFee;
+
+    html += `
+      <div class="mat-card primer-card active">
+        <div class="mat-top">
+          <div class="mat-name-group">
+            <div class="mat-en">${p.enName}</div>
+            <div class="mat-zh">${p.name}</div>
+            <div class="mat-tags">${p.note}</div>
+          </div>
+        </div>
+        <div class="mat-detail" style="display:block;">
+          <div class="method-spec">用量：每桶（${p.bucketWeight}）可施作 <b>${p.range[0]}坪</b>／${p.coats}</div>
+          <div class="bucket-line">${ping > 0 ? `所需桶數：<b>${buckets}</b> 桶（依 ${ping.toFixed(2)} 坪計算）` : '請先於上方填寫坪數'}</div>
+          <div class="price-line"><span class="lbl">單價 / 桶</span><span class="val">$${p.price.toLocaleString()}</span></div>
+          <div class="price-line"><span class="lbl">底漆小計（${buckets}桶）</span><span class="val">$${subtotal.toLocaleString()}</span></div>
+          <div class="price-line"><span class="lbl">調色費（${buckets}桶 × $100，另計）</span><span class="val">$${colorFee.toLocaleString()}</span></div>
+          <div class="price-line" style="border-top:1px solid var(--line); margin-top:8px; padding-top:10px;"><span class="lbl"><b>底漆合計</b></span><span class="val" style="color:var(--orange); font-size:18px;">$${total.toLocaleString()}</span></div>
+        </div>
+      </div>
+    `;
+  });
+
+  html += `</div>`;
+  box.innerHTML = html;
+}
+
+function renderPing(){
+  document.getElementById('pingResult').textContent = getPing().toFixed(2);
+}
+
+function setQuoteDate(){
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth()+1).padStart(2,'0');
+  const d = String(now.getDate()).padStart(2,'0');
+  const wallSummary = walls.map((w, i) => {
+    const l = (parseFloat(w.length)||0).toFixed(2);
+    const wd = (parseFloat(w.width)||0).toFixed(2);
+    return walls.length > 1 ? `牆${i+1} ${l}×${wd}m` : `${l}m × ${wd}m`;
+  }).join('、');
+  document.getElementById('quoteDate').textContent = `試算日期：${y}/${m}/${d}　${wallSummary}　總計 ${getPing().toFixed(2)} 坪`;
+}
+
+function sanitizeNumericInput(el){
+  let v = el.value.replace(/[^0-9.]/g, '');
+  const firstDot = v.indexOf('.');
+  if(firstDot !== -1){
+    v = v.slice(0, firstDot + 1) + v.slice(firstDot + 1).replace(/\./g, '');
+  }
+  if(v !== el.value){
+    el.value = v;
+  }
+}
+
+function refreshAll(){
+  renderPing();
+  renderMatGrid();
+  renderSummary();
+  setQuoteDate();
+}
+
+document.getElementById('wallList').addEventListener('input', (e) => {
+  const target = e.target;
+  if(!target.matches('input[data-field]')) return;
+  sanitizeNumericInput(target);
+  const row = target.closest('.wall-row');
+  const wall = walls.find(w => w.id === row.getAttribute('data-wall-id'));
+  if(!wall) return;
+  wall[target.getAttribute('data-field')] = target.value;
+  const subtotalEl = row.querySelector('.wall-subtotal .num-sm');
+  if(subtotalEl) subtotalEl.textContent = calcWallPing(wall).toFixed(2);
+  refreshAll();
+});
+
+document.getElementById('wallList').addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-remove-wall]');
+  if(!btn) return;
+  walls = walls.filter(w => w.id !== btn.getAttribute('data-remove-wall'));
+  if(walls.length === 0){
+    walls.push(createWall());
+  }
+  renderWalls();
+  refreshAll();
+});
+
+document.getElementById('addWallBtn').addEventListener('click', () => {
+  walls.push(createWall());
+  renderWalls();
+  refreshAll();
+});
+
+document.getElementById('taxToggle').addEventListener('change', () => {
+  updateTaxDisplay();
+});
+
+document.getElementById('printBtn').addEventListener('click', () => {
+  if(document.getElementById('printBtn').disabled) return;
+  setQuoteDate();
+  window.print();
+});
+
+renderWalls();
+renderMatGrid();
+renderSummary();
+renderPing();
+setQuoteDate();
+</script>
+
+</body>
+</html>
