@@ -1123,6 +1123,9 @@
   <div id="techDetail" style="display:none;">
     <div class="wrap" style="padding-top:0;">
       <button type="button" class="tech-back-btn" id="techBackBtn">← 返回施工技術列表</button>
+      <button type="button" id="adminVideoUploadBtn" class="tech-back-btn" style="display:none; margin-left:10px; color:#D95C10; border-color:#D95C10;">上傳／更換教學影片</button>
+      <span id="adminVideoStatus" style="display:none; font-size:12.5px; color:#D95C10; margin-left:10px;"></span>
+      <input type="file" id="adminVideoFileInput" accept="video/*" style="display:none;">
     </div>
     <iframe id="techFrame" title="施工技術文件"></iframe>
   </div>
@@ -1478,12 +1481,17 @@ function initTopNav(){
   document.querySelectorAll('.tech-card').forEach(card => {
     card.addEventListener('click', () => {
       const docId = card.getAttribute('data-doc');
-      const html = TECH_DOCS[docId];
+      let html = TECH_DOCS[docId];
       if(!html) return;
+      if(window.applyGuideVideoOverride){
+        html = window.applyGuideVideoOverride(html, docId);
+      }
       const frame = document.getElementById('techFrame');
       frame.srcdoc = html;
       document.getElementById('techList').style.display = 'none';
       document.getElementById('techDetail').style.display = 'block';
+      window.currentOpenGuideId = docId;
+      if(window.updateAdminGuideControls) window.updateAdminGuideControls();
       window.scrollTo(0, 0);
     });
   });
@@ -1491,6 +1499,8 @@ function initTopNav(){
   document.getElementById('techBackBtn').addEventListener('click', () => {
     document.getElementById('techDetail').style.display = 'none';
     document.getElementById('techList').style.display = 'block';
+    window.currentOpenGuideId = null;
+    if(window.updateAdminGuideControls) window.updateAdminGuideControls();
     window.scrollTo(0, 0);
   });
 
@@ -2153,7 +2163,7 @@ setQuoteDate();
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, getDocs, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, setDoc, getDocs, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
 const firebaseConfig = {
@@ -2233,6 +2243,8 @@ function renderDynamicGuideCards(){
       frame.srcdoc = buildGuideHTML(g);
       document.getElementById('techList').style.display = 'none';
       document.getElementById('techDetail').style.display = 'block';
+      window.currentOpenGuideId = g.id;
+      if(window.updateAdminGuideControls) window.updateAdminGuideControls();
       window.scrollTo(0, 0);
     });
 
@@ -2380,12 +2392,88 @@ async function submitNewGuide(overlay){
   }
 }
 
+// ---------- Video overrides for the built-in static guides (yanzhen / jiemoshi) ----------
+const STATIC_GUIDE_IDS = ['yanzhen', 'jiemoshi'];
+let guideVideoOverrides = {};
+
+async function loadGuideOverrides(){
+  try{
+    const snap = await getDocs(collection(db, 'guideOverrides'));
+    guideVideoOverrides = {};
+    snap.docs.forEach(d => {
+      const data = d.data();
+      if(data.videoURL) guideVideoOverrides[d.id] = data.videoURL;
+    });
+    window.guideVideoOverrides = guideVideoOverrides;
+  }catch(err){
+    console.error('讀取影片覆蓋設定失敗', err);
+  }
+}
+
+window.applyGuideVideoOverride = function(html, docId){
+  const url = guideVideoOverrides[docId];
+  if(!url) return html;
+  if(/class="video-wrap"/.test(html)){
+    return html.replace(/<video[^>]*src="[^"]*"[^>]*>[\s\S]*?<\/video>/,
+      '<video controls preload="metadata" src="' + url + '">您的瀏覽器不支援影片播放。</video>');
+  }
+  const marker = '<main class="wrap">';
+  const videoBlock = '<section class="section"><div class="section-head"><div class="num">&#9654;</div><div><h2>教學影片</h2></div></div>' +
+    '<div class="video-wrap" style="border-radius:16px;overflow:hidden;border:1px solid #d8d2c8;background:#000;">' +
+    '<video controls preload="metadata" src="' + url + '" style="width:100%;display:block;max-height:520px;">您的瀏覽器不支援影片播放。</video>' +
+    '</div></section>';
+  if(html.indexOf(marker) !== -1){
+    return html.replace(marker, marker + videoBlock);
+  }
+  return html;
+};
+
+window.updateAdminGuideControls = function(){
+  const btn = document.getElementById('adminVideoUploadBtn');
+  if(!btn) return;
+  const isStaticGuideOpen = window.currentOpenGuideId && STATIC_GUIDE_IDS.indexOf(window.currentOpenGuideId) !== -1;
+  btn.style.display = (currentUser && isStaticGuideOpen) ? 'inline-block' : 'none';
+};
+
+const adminVideoUploadBtn = document.getElementById('adminVideoUploadBtn');
+const adminVideoFileInput = document.getElementById('adminVideoFileInput');
+if(adminVideoUploadBtn && adminVideoFileInput){
+  adminVideoUploadBtn.addEventListener('click', () => adminVideoFileInput.click());
+  adminVideoFileInput.addEventListener('change', async () => {
+    const file = adminVideoFileInput.files[0];
+    if(!file) return;
+    const guideId = window.currentOpenGuideId;
+    if(!guideId || !currentUser) return;
+    const statusEl = document.getElementById('adminVideoStatus');
+    statusEl.style.display = 'inline';
+    statusEl.textContent = '上傳中...';
+    try{
+      const vRef = ref(storage, 'guideOverrides/' + guideId + '/video-' + file.name);
+      await uploadBytes(vRef, file);
+      const url = await getDownloadURL(vRef);
+      await setDoc(doc(db, 'guideOverrides', guideId), { videoURL: url }, { merge: true });
+      guideVideoOverrides[guideId] = url;
+      window.guideVideoOverrides = guideVideoOverrides;
+      const html = window.applyGuideVideoOverride(TECH_DOCS[guideId], guideId);
+      document.getElementById('techFrame').srcdoc = html;
+      statusEl.textContent = '影片已更新！';
+      setTimeout(() => { statusEl.style.display = 'none'; }, 3000);
+    }catch(err){
+      console.error(err);
+      statusEl.textContent = '上傳失敗：' + err.message;
+    }
+    adminVideoFileInput.value = '';
+  });
+}
+
 onAuthStateChanged(auth, (user) => {
   currentUser = user;
   renderAdminBar();
   renderDynamicGuideCards();
+  window.updateAdminGuideControls();
 });
 
+loadGuideOverrides();
 loadGuides();
 </script>
 
