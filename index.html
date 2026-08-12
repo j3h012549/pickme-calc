@@ -39,6 +39,149 @@
     .wrap{ padding: 56px 28px 80px; }
   }
 
+  /* ---------- Top navigation (calc / technical guides) ---------- */
+  .top-nav{
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(237, 234, 225, 0.94);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .top-nav-inner{
+    max-width: 1080px;
+    margin: 0 auto;
+    display:flex;
+    gap: 8px;
+    padding: 12px 16px;
+  }
+  .top-nav-btn{
+    border: none;
+    background: transparent;
+    padding: 8px 16px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    border-radius: 999px;
+    letter-spacing: 0.02em;
+    transition: all 0.15s ease;
+  }
+  .top-nav-btn:hover{
+    background: var(--orange-soft);
+    color: var(--orange);
+  }
+  .top-nav-btn.active{
+    background: var(--orange);
+    color: var(--white);
+  }
+  @media print{
+    .top-nav{ display:none; }
+  }
+
+  /* ---------- Technical guide view ---------- */
+  #techView{
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 32px 16px 60px;
+  }
+  @media (min-width: 721px){
+    #techView{ padding: 56px 28px 80px; }
+  }
+  .tech-list-head{
+    text-align:center;
+    margin-bottom: 32px;
+  }
+  .tech-list-head .eyebrow{
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--orange);
+    letter-spacing: 0.12em;
+    margin-bottom: 12px;
+  }
+  .tech-list-head h1{
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 600;
+    font-size: clamp(24px, 5vw, 36px);
+    margin: 0 0 10px;
+    letter-spacing: 0.03em;
+  }
+  .tech-list-head p{
+    color: var(--ink-soft);
+    font-size: 13.5px;
+    line-height: 1.9;
+  }
+  .tech-card-grid{
+    display:flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .tech-card{
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    padding: 20px 22px;
+    cursor:pointer;
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+    gap: 16px;
+    transition: border-color 0.15s ease;
+  }
+  .tech-card:hover{
+    border-color: var(--orange);
+  }
+  .tech-card-en{
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--orange);
+    letter-spacing: 0.08em;
+    margin-bottom: 2px;
+  }
+  .tech-card-title{
+    font-family: 'Noto Serif TC', serif;
+    font-weight:600;
+    font-size:18px;
+  }
+  .tech-card-sub{
+    font-size:12.5px;
+    color: var(--ink-soft);
+    margin-top:6px;
+  }
+  .tech-card-arrow{
+    font-family:'EB Garamond', serif;
+    font-style:italic;
+    color: var(--orange);
+    font-size:22px;
+    flex-shrink:0;
+  }
+  .tech-back-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:none;
+    border:1px solid var(--line-strong);
+    padding:9px 18px;
+    font-size:13px;
+    font-family: 'Noto Sans TC', sans-serif;
+    color: var(--ink-soft);
+    cursor:pointer;
+    margin-bottom:20px;
+    transition: all 0.15s ease;
+  }
+  .tech-back-btn:hover{
+    border-color: var(--orange);
+    color: var(--orange);
+  }
+  #techFrame{
+    width:100%;
+    display:block;
+    border:none;
+    background: transparent;
+    min-height: 600px;
+  }
+
   /* ---------- Header ---------- */
   .head{
     text-align:center;
@@ -821,7 +964,14 @@
 </head>
 <body>
 
-<div class="wrap">
+<div class="top-nav">
+  <div class="top-nav-inner">
+    <button type="button" class="top-nav-btn active" id="navCalcBtn" data-view="calc">材料試算</button>
+    <button type="button" class="top-nav-btn" id="navTechBtn" data-view="tech">施工技術</button>
+  </div>
+</div>
+
+<div class="wrap" id="calcView">
 
   <div class="quote-print-head">
     <div class="qp-eyebrow">/ Color Easy Life Cozy</div>
@@ -943,7 +1093,417 @@
 
 </div>
 
+<div id="techView" style="display:none;">
+  <div id="techList">
+    <div class="tech-list-head">
+      <div class="eyebrow">/ Color Easy Life Cozy</div>
+      <h1>施工技術文件</h1>
+      <p>各項材料的現場施作工序與使用說明，點選項目查看完整內容。</p>
+    </div>
+    <div class="tech-card-grid">
+      <div class="tech-card" data-doc="yanzhen">
+        <div>
+          <div class="tech-card-en">MICROCEMENT</div>
+          <div class="tech-card-title">岩臻微水泥</div>
+          <div class="tech-card-sub">施作工序使用說明｜底材評估、玻纖透批、面材、研磨、封固與罩面保護</div>
+        </div>
+        <div class="tech-card-arrow">→</div>
+      </div>
+      <div class="tech-card" data-doc="jiemoshi">
+        <div>
+          <div class="tech-card-en">TERRAZZO FLOOR SYSTEM</div>
+          <div class="tech-card-title">界磨石</div>
+          <div class="tech-card-sub">地面專用施作工序｜萬用底漆、波纖抗裂、界磨石底漆、界磨石中塗、界磨石面塗與啞光保護</div>
+        </div>
+        <div class="tech-card-arrow">→</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="techDetail" style="display:none;">
+    <div class="wrap" style="padding-top:0;">
+      <button type="button" class="tech-back-btn" id="techBackBtn">← 返回施工技術列表</button>
+    </div>
+    <iframe id="techFrame" title="施工技術文件"></iframe>
+  </div>
+</div>
+
 <script>
+const TECH_DOCS = {
+  yanzhen: `<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>岩臻微水泥｜施作工序使用說明</title>
+<style>
+:root{
+  --bg:#f4f1eb;
+  --card:#fffdf8;
+  --ink:#252522;
+  --muted:#6d6a63;
+  --line:#d8d2c8;
+  --accent:#2f4f46;
+  --accent2:#b18b5b;
+  --danger:#9d3e32;
+  --soft:#ece7dd;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.75}
+a{color:inherit}
+.hero{padding:64px 20px 34px;background:linear-gradient(145deg,#e9e4da,#f7f4ee)}
+.wrap{max-width:980px;margin:auto}
+.eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1{font-size:clamp(34px,7vw,64px);line-height:1.05;margin:14px 0 14px;letter-spacing:-.03em}
+.subtitle{max-width:700px;color:var(--muted);font-size:16px}
+.meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.pill{background:rgba(255,255,255,.65);border:1px solid var(--line);padding:7px 11px;border-radius:999px;font-size:13px}
+.nav{position:sticky;top:0;z-index:10;background:rgba(244,241,235,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(216,210,200,.8);overflow-x:auto;white-space:nowrap}
+.nav .wrap{display:flex;gap:8px;padding:10px 18px}.nav a{text-decoration:none;padding:7px 11px;border-radius:999px;font-size:13px}.nav a:hover{background:var(--soft)}
+main{padding:34px 18px 80px}.section{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:26px;margin:0 0 20px;box-shadow:0 8px 30px rgba(44,42,37,.035)}
+.section-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:18px}.num{width:38px;height:38px;display:grid;place-items:center;border-radius:50%;background:var(--accent);color:white;font-weight:700;flex:0 0 38px}.section h2{margin:2px 0 0;font-size:24px;line-height:1.25}
+h3{font-size:17px;margin:20px 0 8px}.steps{counter-reset:item;list-style:none;padding:0;margin:12px 0}.steps li{position:relative;padding:0 0 14px 34px}.steps li::before{counter-increment:item;content:counter(item);position:absolute;left:0;top:2px;width:22px;height:22px;border-radius:50%;background:var(--soft);color:var(--accent);display:grid;place-items:center;font-size:12px;font-weight:800}
+.note,.warning,.formula{border-radius:14px;padding:14px 16px;margin:14px 0}.note{background:#eef2ef;border-left:4px solid var(--accent)}.warning{background:#f7ebe7;border-left:4px solid var(--danger)}.formula{background:#f1eadf;border-left:4px solid var(--accent2)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.mini{background:#faf7f1;border:1px solid var(--line);border-radius:16px;padding:16px}.mini strong{display:block;margin-bottom:4px}.muted{color:var(--muted)}
+table{width:100%;border-collapse:collapse;margin-top:12px;font-size:14px}th,td{padding:12px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.check{display:flex;gap:10px;align-items:flex-start;margin:8px 0}.dot{width:8px;height:8px;border-radius:50%;background:var(--accent2);margin-top:10px;flex:0 0 8px}
+footer{padding:24px 18px 56px;color:var(--muted);font-size:12px;text-align:center}
+@media(max-width:720px){.hero{padding-top:46px}.section{padding:20px;border-radius:18px}.grid{grid-template-columns:1fr}.nav .wrap{padding-left:12px}.section h2{font-size:21px}table{font-size:13px}.hide-mobile{display:none}}
+@media print{.nav{display:none}.hero{padding-top:30px}body{background:white}.section{break-inside:avoid;box-shadow:none}.wrap{max-width:none}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">PICKME · 施工技術文件</div>
+    <h1>岩臻微水泥<br>施作工序</h1>
+    <div class="subtitle">從底材評估、玻璃纖維透批、粗土／中土施工，到研磨、封固與罩面保護的完整現場版操作說明。</div>
+    <div class="meta"><span class="pill">建議現場依底材狀況調整</span><span class="pill">A／B 劑比例請精準秤重</span><span class="pill">手機版友善</span></div>
+  </div>
+</header>
+<nav class="nav"><div class="wrap">
+  <a href="#s0">00 產品特色</a><a href="#s1">01 底材</a><a href="#s2">02 玻纖</a><a href="#s3">03 面材</a><a href="#s4">04 研磨</a><a href="#s5">05 封固</a><a href="#s6">06 第一層罩面</a><a href="#s7">07 第二層罩面</a><a href="#s8">08 性能數據</a>
+</div></nav>
+<main class="wrap">
+<section class="section" id="s0"><div class="section-head"><div class="num">00</div><div><h2>產品特色與適用場景</h2><div class="muted">岩臻微水泥（MicroRock）是萬磊針對傳統微水泥「濕區硬度不足」弱點所推出的性能增強型產品，主打湿区專用與超高硬度。</div></div></div>
+<div class="grid">
+<div class="mini"><strong>超高硬度</strong><div class="muted">邵氏硬度 48.8，莫氏硬度 4 級，相當於 iPhone 手機螢幕的硬度。</div></div>
+<div class="mini"><strong>防水耐磨</strong><div class="muted">浸泡於 6 米水深達 160 小時，不起泡、不剝落、不變色，可用於泳池、跳水池。</div></div>
+<div class="mini"><strong>超薄塗層</strong><div class="muted">飾面塗層減薄 30%，僅約一枚硬幣的厚度，輕薄與性能兼具。</div></div>
+<div class="mini"><strong>超強化學穩定性</strong><div class="muted">耐酸、耐鹼、耐泳池常用清潔劑（液氯、強酸／強鹼清洗劑）侵蝕。</div></div>
+<div class="mini"><strong>高黏著力</strong><div class="muted">拉伸黏結強度 ≥1MPa，可吸附馬賽克磁磚、瓷磚、玻璃、木板、水泥、膩子牆、複合夾板等多種基面。</div></div>
+<div class="mini"><strong>高韌性</strong><div class="muted">歷經 10000 次彎折測試仍保持完美弧度，500g 鋼球 2 米自由落體衝擊漆膜無裂紋、無剝落。</div></div>
+</div>
+<div class="note"><b>適用場景：</b>室內地面、牆面、室內游泳池、浴室等濕區空間 — 填補了傳統微水泥無法勝任的濕區使用場景。</div></section>
+
+<section class="section" id="s1"><div class="section-head"><div class="num">01</div><div><h2>底材評估與前處理</h2><div class="muted">先判斷底材類型，確保乾燥、穩定、平整，再進入後續工序。</div></div></div>
+<div class="grid"><div class="mini"><strong>水泥粉光底</strong><div class="muted">較容易有龜裂風險。</div><ol class="steps"><li>確認水泥粉光已完成養護並完全乾燥。</li><li>上一層 <b>A100 滲透型封膜劑</b>。</li><li>待乾後，滾塗一層 <b>萬磊萬用底漆</b>。</li></ol></div>
+<div class="mini"><strong>磁磚底</strong><ol class="steps"><li>先檢查磁磚是否有空鼓、翹起或鬆動問題。</li><li>先以 <b>益膠泥</b> 單獨補平磁磚縫。</li><li>收面必須乾淨，不能留下明顯「井字痕」厚度。</li><li>通常抓 2 次批補，實際依案場狀況調整。</li><li>完全乾透後研磨平整。</li><li>最後滾塗一層 <b>萬磊萬用底漆</b>。</li></ol></div></div>
+<div class="warning"><b>重點：</b>若底材本身不穩定、含水過高或有空鼓裂縫，後續再好的面材也可能產生問題。</div></section>
+
+<section class="section" id="s2"><div class="section-head"><div class="num">02</div><div><h2>玻璃纖維透批</h2><div class="muted">提高抗拉力、加強基底穩定度。</div></div></div>
+<div class="formula"><b>建議比例：</b>玻璃纖維＋益膠泥 ≈ 1：1。實際稠度以「攪拌棒拉起後不會像水一樣滴落」為準。</div>
+<ol class="steps"><li>底材處理完成後，先全面研磨平順。</li><li>開始透批玻璃纖維＋益膠泥。</li><li>多數案場建議透批 2 次，依平整度與底材回饋調整。</li><li>每層完成後最好先研磨，再進入下一層施工。</li></ol>
+<div class="warning"><b>不可太薄：</b>玻璃纖維層太薄會影響抗拉力。若想省工可一次批厚，但要確保厚度；擔心一次批不平，可分 2 次完成。</div>
+<div class="note"><b>工期提醒：</b>玻璃纖維乾燥速度較慢，排工時需預留乾燥時間。</div></section>
+
+<section class="section" id="s3"><div class="section-head"><div class="num">03</div><div><h2>岩臻微水泥面材</h2><div class="muted">分為粗土、中土、細土，每包 10 kg。底材夠平時，多數做法為粗土 1 次＋中土 1 次。</div></div></div>
+<div class="grid"><div class="mini"><strong>粗土</strong><div class="formula">加水量：土重量 × <b>6%</b></div></div><div class="mini"><strong>中土</strong><div class="formula">加水量：土重量 × <b>9%</b></div></div></div>
+<h3>粗土層</h3><ol class="steps"><li>玻璃纖維透批完成後，全面研磨平整，包含邊角都要磨順。</li><li>先將 <b>岩臻 A 劑＋色漿</b> 混合攪拌均勻。此階段<b>不可先加 B 劑</b>。</li><li>依人力與當次施工面積，另外秤出需要的 A 劑重量，再加入 B 劑。</li><li>例如：只需要約 1 坪用量，可分裝 <b>A 劑 2 kg＋B 劑 200 g</b>，比例 A:B＝10:1。</li><li>攪拌均勻後，再依「土」的重量加入 6% 水量，充分攪拌後即可批抹。</li></ol>
+<h3>中土層</h3><ol class="steps"><li>粗土完成後等到<b>半乾、手摸不黏</b>時，即可接著批中土，不必等完全乾燥。</li><li>若粗土放到隔天完全乾才批中土，較容易產生起泡情況。</li><li>中土加入 B 劑後，再依土重量加入 <b>9% 水</b>。</li><li>批中土可先扇形批抹，再以多方向輕收刀紋，表面會更平整。</li><li>岩臻微水泥具有些微自流平效果，最後輕收後表面仍會再自然平緩一些。</li></ol>
+<div class="warning"><b>時間控制：</b>剛加水時最好施工，單次調料盡量在 <b>1 小時內</b>完成批抹。初期不建議直接開電風扇強吹；若施工中明顯變濃稠，可視情況少量補水後再攪拌。</div></section>
+
+<section class="section" id="s4"><div class="section-head"><div class="num">04</div><div><h2>研磨</h2><div class="muted">中土完成後的研磨時機非常重要。</div></div></div>
+<ol class="steps"><li>中土完成後，建議<b>隔天研磨</b>。</li><li>避免星期五做完中土後拖到星期一才磨，放太久會變得非常難研磨。</li><li>隔天下手時，先用 <b>180 號砂紙</b>試磨。</li><li>如果越磨越「砂」、或幾乎磨不動，再改用更粗一點的砂紙。</li></ol>
+<div class="note"><b>原則：</b>先細後粗測試，不要一開始就使用過粗砂紙，避免留下不必要的磨痕。</div></section>
+
+<section class="section" id="s5"><div class="section-head"><div class="num">05</div><div><h2>封固處理</h2><div class="muted">研磨完成後，先清潔粉塵再進入保護系統。</div></div></div>
+<ol class="steps"><li>確認表面研磨完成。</li><li>徹底清除粉塵與髒污。</li><li>均勻上一層 <b>封固劑</b>。</li></ol></section>
+
+<section class="section" id="s6"><div class="section-head"><div class="num">06</div><div><h2>罩面保護｜第一層</h2><div class="muted">第一層採「潤色」或「高蓋色」方式，讓顏色更自然、不死板。</div></div></div>
+<p>罩面有兩種：<b>同色罩面</b>與<b>超啞光透明罩面</b>，兩者皆需加入 B 劑硬化劑。單獨使用同色罩面容易讓顏色過於死板，因此現場常把同色＋透明超啞光混合使用，稱為「潤色」。</p>
+<div class="note">先將各自的 <b>A 劑＋顏色</b>調均勻，再依實際需要量分裝，最後才加入對應 B 劑硬化劑。</div>
+<table><thead><tr><th>模式</th><th>6 坪常用總量</th><th>透明保護漆</th><th>同色保護漆</th><th>色漿換算</th></tr></thead>
+<tbody><tr><td><b>潤色 5:1</b></td><td>1.8 kg</td><td>1.5 kg<br><span class="muted">A 1200 g + B 300 g</span></td><td>300 g<br><span class="muted">A 270 g + B 30 g</span></td><td>微水泥色漿量 × 0.075</td></tr>
+<tr><td><b>高蓋色 2:1</b></td><td>1.5 kg</td><td>1.0 kg<br><span class="muted">A 800 g + B 200 g</span></td><td>500 g<br><span class="muted">A 450 g + B 50 g</span></td><td>微水泥色漿量 ÷ 8</td></tr></tbody></table>
+<div class="formula"><b>透明超啞光罩面 A:B＝4:1</b><br>潤色系統中的各材料，仍需依各自 A／B 比例正確秤重，不要先整桶混合後再估算。</div></section>
+
+<section class="section" id="s7"><div class="section-head"><div class="num">07</div><div><h2>罩面保護｜第二層</h2><div class="muted">最後一道透明超啞光保護，提升硬度與耐用度。</div></div></div>
+<ol class="steps"><li>第一層潤色／半蓋色完成後，進行最後一道透明超啞光罩面。</li><li><b>超啞光 A 劑：B 劑＝4：1</b>。</li><li>均勻施工完整面，增加整體硬度、耐磨與保護程度。</li></ol>
+<div class="warning"><b>最後確認：</b>各層完全乾燥前，避免碰水、重壓、拖拉物件或高強度使用。</div></section>
+
+<section class="section" id="s8"><div class="section-head"><div class="num">08</div><div><h2>性能檢測數據</h2><div class="muted">第三方檢測單位 CTI 華測檢測依國家標準檢測結果，供報價與客戶說明參考。</div></div></div>
+<table>
+<thead><tr><th>檢測項目</th><th>技術要求</th><th>檢測結果</th><th>結論</th></tr></thead>
+<tbody>
+<tr><td>邵氏硬度（D 型）</td><td>—</td><td>48.5 ／ 48.8 ／ 48.7</td><td>—</td></tr>
+<tr><td>耐磨性（750g/500r）</td><td>—</td><td>0.027 g</td><td>—</td></tr>
+<tr><td>拉伸黏結強度（標準條件）</td><td>—</td><td>1.0 MPa</td><td>—</td></tr>
+<tr><td>拉伸黏結強度（浸水後）</td><td>—</td><td>0.6 MPa</td><td>—</td></tr>
+<tr><td>耐衝擊性（500g 鋼球輕載）</td><td>—</td><td>塗膜無裂紋、無剝落</td><td>合格</td></tr>
+<tr><td>防滑性（乾摩擦係數）</td><td>—</td><td>0.87</td><td>—</td></tr>
+<tr><td>耐水性（168h）</td><td>—</td><td>不起泡、不剝落，顏色無變化</td><td>合格</td></tr>
+<tr><td>耐鹼性（20% NaOH，72h）</td><td>—</td><td>不起泡、不剝落，顏色無變化</td><td>合格</td></tr>
+<tr><td>耐酸性（10% H₂SO₄，48h）</td><td>—</td><td>不起泡、不剝落，顏色無變化</td><td>合格</td></tr>
+<tr><td>耐油性（120# 溶劑油，72h）</td><td>—</td><td>不起泡、不剝落，顏色無變化</td><td>合格</td></tr>
+<tr><td>耐鹽水性（3% NaCl，168h）</td><td>—</td><td>不起泡、不剝落，顏色無變化</td><td>合格</td></tr>
+</tbody>
+</table>
+<div class="note">檢測報告編號：BED20Q000516001C，由 CTI 華測檢測出具，如需完整報告請洽詢公司內部資料。</div></section>
+
+<section class="section"><div class="section-head"><div class="num">✓</div><div><h2>現場快速檢查表</h2><div class="muted">開工前與每一層完成後都可以快速確認。</div></div></div>
+<div class="check"><span class="dot"></span><div>底材是否穩定、乾燥、無空鼓／翹起？</div></div>
+<div class="check"><span class="dot"></span><div>每一層是否已達到應有平整度，再往下一層？</div></div>
+<div class="check"><span class="dot"></span><div>A／B 劑是否分開秤重並依正確比例混合？</div></div>
+<div class="check"><span class="dot"></span><div>加水量是否依「土重量」計算，而非依 A 劑重量？</div></div>
+<div class="check"><span class="dot"></span><div>中土是否抓在粗土半乾不黏時接續施工？</div></div>
+<div class="check"><span class="dot"></span><div>中土是否安排隔天研磨，避免放太久？</div></div>
+</section>
+</main>
+<footer>岩臻微水泥施工說明｜現場施工仍應依實際底材、環境濕度、溫度與施工面積彈性調整。</footer>
+<script>
+document.querySelectorAll('.nav a[href^="#"]').forEach(function(link){
+  link.addEventListener('click', function(e){
+    e.preventDefault();
+    var id = this.getAttribute('href').slice(1);
+    var target = document.getElementById(id);
+    if(target){ target.scrollIntoView({behavior:'smooth', block:'start'}); }
+  });
+});
+<\/script>
+</body></html>`,
+  jiemoshi: `<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>界磨石｜施作工序使用說明</title>
+<style>
+:root{
+  --bg:#f4f1eb;
+  --card:#fffdf8;
+  --ink:#252522;
+  --muted:#6d6a63;
+  --line:#d8d2c8;
+  --accent:#2f4f46;
+  --accent2:#b18b5b;
+  --danger:#9d3e32;
+  --soft:#ece7dd;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.75}
+a{color:inherit}
+.hero{padding:64px 20px 34px;background:linear-gradient(145deg,#e9e4da,#f7f4ee)}
+.wrap{max-width:980px;margin:auto}
+.eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1{font-size:clamp(34px,7vw,64px);line-height:1.05;margin:14px 0 14px;letter-spacing:-.03em}
+.subtitle{max-width:700px;color:var(--muted);font-size:16px}
+.meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.pill{background:rgba(255,255,255,.65);border:1px solid var(--line);padding:7px 11px;border-radius:999px;font-size:13px}
+.nav{position:sticky;top:0;z-index:10;background:rgba(244,241,235,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(216,210,200,.8);overflow-x:auto;white-space:nowrap}
+.nav .wrap{display:flex;gap:8px;padding:10px 18px}.nav a{text-decoration:none;padding:7px 11px;border-radius:999px;font-size:13px}.nav a:hover{background:var(--soft)}
+main{padding:34px 18px 80px}.section{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:26px;margin:0 0 20px;box-shadow:0 8px 30px rgba(44,42,37,.035)}
+.section-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:18px}.num{width:38px;height:38px;display:grid;place-items:center;border-radius:50%;background:var(--accent);color:white;font-weight:700;flex:0 0 38px}.section h2{margin:2px 0 0;font-size:24px;line-height:1.25}
+h3{font-size:17px;margin:20px 0 8px}.steps{counter-reset:item;list-style:none;padding:0;margin:12px 0}.steps li{position:relative;padding:0 0 14px 34px}.steps li::before{counter-increment:item;content:counter(item);position:absolute;left:0;top:2px;width:22px;height:22px;border-radius:50%;background:var(--soft);color:var(--accent);display:grid;place-items:center;font-size:12px;font-weight:800}
+.note,.warning,.formula{border-radius:14px;padding:14px 16px;margin:14px 0}.note{background:#eef2ef;border-left:4px solid var(--accent)}.warning{background:#f7ebe7;border-left:4px solid var(--danger)}.formula{background:#f1eadf;border-left:4px solid var(--accent2)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.mini{background:#faf7f1;border:1px solid var(--line);border-radius:16px;padding:16px}.mini strong{display:block;margin-bottom:4px}.muted{color:var(--muted)}
+.tag-grid{display:flex;flex-wrap:wrap;gap:10px}.tag{background:#faf7f1;border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-size:13.5px}
+.product-row{display:flex;flex-wrap:wrap;gap:16px;margin-top:12px}
+.product-item{flex:1 1 120px;max-width:160px;text-align:center}
+.product-item img{width:100%;height:auto;border-radius:12px;border:1px solid var(--line);background:#fff;display:block}
+.product-label{margin-top:8px;font-size:12.5px;color:var(--muted)}
+.product-pending-box{width:100%;aspect-ratio:1;border:1px dashed var(--line);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:11.5px;background:#fff;line-height:1.6}
+table{width:100%;border-collapse:collapse;margin-top:12px;font-size:14px}th,td{padding:12px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.check{display:flex;gap:10px;align-items:flex-start;margin:8px 0}.dot{width:8px;height:8px;border-radius:50%;background:var(--accent2);margin-top:10px;flex:0 0 8px}
+.video-wrap{border-radius:16px;overflow:hidden;border:1px solid var(--line);background:#000}
+.video-wrap video{width:100%;display:block;max-height:520px}
+footer{padding:24px 18px 56px;color:var(--muted);font-size:12px;text-align:center}
+@media(max-width:720px){.hero{padding-top:46px}.section{padding:20px;border-radius:18px}.grid{grid-template-columns:1fr}.nav .wrap{padding-left:12px}.section h2{font-size:21px}table{font-size:13px}.hide-mobile{display:none}}
+@media print{.nav{display:none}.hero{padding-top:30px}body{background:white}.section{break-inside:avoid;box-shadow:none}.wrap{max-width:none}.video-wrap{display:none}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">PICKME · 施工技術文件</div>
+    <h1>界磨石<br>施作工序</h1>
+    <div class="subtitle">地面專用系統，市場俗稱「環氧彩砂塗料」，質感更接近天然磨石地坪。從底漆、找平、抗裂、中塗到面塗磨石，完整系統流程說明。</div>
+    <div class="meta"><span class="pill">地面專用</span><span class="pill">新品上市</span><span class="pill">A／B 劑比例請精準秤重</span><span class="pill">手機版友善</span></div>
+  </div>
+</header>
+<nav class="nav"><div class="wrap">
+  <a href="#s0">00 產品介紹</a><a href="#s1">01 系統流程</a><a href="#s2">02 適用基面</a><a href="#s3">03 材料用量</a><a href="#s4">04 售價參考</a><a href="#s5">05 性能數據</a><a href="#s6">06 教學影片</a><a href="#s7">07 注意事項</a>
+</div></nav>
+<main class="wrap">
+
+<section class="section" id="s0"><div class="section-head"><div class="num">00</div><div><h2>產品介紹</h2><div class="muted">界磨石 / Terrazzino — 三組分無溶劑型浮動彩砂自流平地坪塗料。</div></div></div>
+<p>界磨石，市場俗稱的「環氧彩砂塗料」，是一種新型環保裝飾材料，近年來在建築、家裝、工業地坪等領域迅速走紅。相較於瓷磚拼貼容易藏污的接縫問題，界磨石為無縫一體施工，並具備優異的耐磨、耐壓、抗衝擊與耐酸鹼腐蝕性能。</p>
+<div class="grid">
+<div class="mini"><strong>0 氣味、0 揮發</strong><div class="muted">獨創 Terrazzino Resin 高分子改性聚氨酯配方，0 VOC 含量，環境友善。</div></div>
+<div class="mini"><strong>抗變黃、不沉澱</strong><div class="muted">改性環氧樹脂抗變黃性能更佳，色砂不會有沉積不均的問題。</div></div>
+</div>
+<div class="note"><b>色號選擇：</b>提供 15 款固定比例調配的彩色石英砂色號可供選擇，色彩經科學配比測試，效果穩定一致。</div>
+
+<h3>產品組成</h3>
+<div class="muted" style="margin-bottom:10px;">系統共三項主要材料，各自為雙組分或三組分包裝，使用前請依比例秤重混合，不可加水。</div>
+
+<div class="mini" style="margin-bottom:16px;">
+<strong>界底漆 / Terraprimer</strong>
+<div class="product-row">
+  <div class="product-item"><img src="jiemoshi-primer-a.jpg" alt="界底漆A組分"><div class="product-label">A 組分</div></div>
+  <div class="product-item"><img src="jiemoshi-primer-b.jpg" alt="界底漆B組分"><div class="product-label">B 組分</div></div>
+</div>
+</div>
+
+<div class="mini" style="margin-bottom:16px;">
+<strong>界平線中塗 / Terrafiller</strong>
+<div class="product-row">
+  <div class="product-item"><img src="jiemoshi-filler-a.jpg" alt="界平線中塗A組分"><div class="product-label">A 組分</div></div>
+  <div class="product-item"><img src="jiemoshi-filler-b.jpg" alt="界平線中塗B組分"><div class="product-label">B 組分</div></div>
+</div>
+</div>
+
+<div class="mini">
+<strong>界磨石面塗 / Terrazzino</strong>
+<div class="product-row">
+  <div class="product-item"><img src="jiemoshi-topcoat-a.jpg" alt="界磨石A組分"><div class="product-label">A 組分</div></div>
+  <div class="product-item"><img src="jiemoshi-topcoat-b.jpg" alt="界磨石B組分"><div class="product-label">B 組分</div></div>
+  <div class="product-item"><img src="jiemoshi-topcoat-c.jpg" alt="界磨石C組分"><div class="product-label">C 組分</div></div>
+</div>
+</div>
+</section>
+
+<section class="section" id="s1"><div class="section-head"><div class="num">01</div><div><h2>系統施作流程</h2><div class="muted">共 6 道工序，官方標準流程如下（詳細操作請以教學影片為準）。</div></div></div>
+<ol class="steps">
+  <li><b>界磨石底漆</b>：地面整體施作界磨石底漆（水性配方），加強底材與後續系統的附著力。</li>
+  <li><b>界平線（選用）</b>：地面若有 3mm 以內的高度落差，可批覆界平線進行找平處理。</li>
+  <li><b>主材混合</b>：將界磨石主材（Terrazzino 雙組分：樹脂＋硬化劑）依比例混合均勻。</li>
+  <li><b>倒料抹平</b>：將混合好的主材倒於地面，用抹刀初步找平。</li>
+  <li><b>消泡滾塗</b>：使用消泡辊筒持續滾塗表面，排除氣泡並讓塗層更平整。</li>
+  <li><b>靜置養護</b>：於室溫 25℃、濕度低於 50% 的條件下，靜置 24 小時後即可投入使用。</li>
+</ol>
+<div class="warning"><b>重點：</b>本頁僅為系統流程總覽，各層實際配比、攪拌方式、施工手法與乾燥時間，請以下方教學影片與現場師傅指導為準，避免僅憑文字說明自行施作。</div></section>
+
+<section class="section" id="s2"><div class="section-head"><div class="num">02</div><div><h2>適用基面</h2><div class="muted">全基面適配，不挑基面。</div></div></div>
+<div class="tag-grid">
+<span class="tag">瓷磚</span><span class="tag">鋼鐵</span><span class="tag">石膏板</span><span class="tag">GRC 鎖扣地板</span><span class="tag">馬賽克</span><span class="tag">大理石</span><span class="tag">石頭</span><span class="tag">水泥</span>
+</div>
+<div class="note"><b>適用空間：</b>廠房（注重效率／實用）、洗手間（注重防水／防滑）、商場（注重耐磨）、停車場（注重硬度／堅固）、公寓（注重環保）、泳池（注重性能）。</div></section>
+
+<section class="section" id="s3"><div class="section-head"><div class="num">03</div><div><h2>材料使用量對照</h2><div class="muted">依產品比例秤重混合，實際用量會因底材平整度、施工手法略有差異，建議預留餘量。</div></div></div>
+<table>
+<thead><tr><th>材料</th><th>比例（重量）</th><th>可施作面積（約）</th></tr></thead>
+<tbody>
+<tr><td><b>界磨石底漆</b></td><td>3 + 1 KG</td><td>12～15 ㎡</td></tr>
+<tr><td><b>界磨石中塗</b></td><td>10 + 2 KG</td><td>10～12 ㎡</td></tr>
+<tr><td><b>界磨石</b></td><td>10 + 2 + 4 KG</td><td>8～10 ㎡</td></tr>
+</tbody>
+</table>
+<div class="formula"><b>提醒：</b>以上為單組材料可施作面積的參考值，實際用量會因底材吸收度、施工厚度與工法而有所增減，備料時建議預留 5–10% 餘量。</div></section>
+
+<section class="section" id="s4"><div class="section-head"><div class="num">04</div><div><h2>售價參考</h2><div class="muted">以每坪為單位的參考售價，實際報價請以正式報價單為準。</div></div></div>
+<table>
+<thead><tr><th>項目</th><th>售價</th><th>可施作坪數</th></tr></thead>
+<tbody>
+<tr><td><b>底漆</b></td><td>$2,800</td><td>6 坪</td></tr>
+<tr><td><b>中塗</b></td><td>$4,600</td><td>4 坪</td></tr>
+<tr><td><b>面塗</b></td><td>$6,800</td><td>3 坪</td></tr>
+<tr><td><b>啞光保護漆</b></td><td>$4,800</td><td>15 坪</td></tr>
+</tbody>
+</table>
+<div class="note"><b>提醒：</b>施作厚度越厚，可塗佈的坪數會相對越少，實際用量請依現場施工厚度調整。</div></section>
+
+<section class="section" id="s5"><div class="section-head"><div class="num">05</div><div><h2>性能檢測數據</h2><div class="muted">第三方檢測單位 CTI 華測檢測依國家標準檢測結果，供報價與客戶說明參考。</div></div></div>
+<table>
+<thead><tr><th>檢測項目</th><th>技術要求</th><th>檢測結果</th><th>結論</th></tr></thead>
+<tbody>
+<tr><td>邵氏硬度（D 型）</td><td>—</td><td>89.4 ／ 89.1 ／ 89.2</td><td>—</td></tr>
+<tr><td>耐磨性（750g/500r）</td><td>≤0.030 g</td><td>0.029 g</td><td>合格</td></tr>
+<tr><td>抗壓強度</td><td>≥45 MPa</td><td>52 MPa</td><td>合格</td></tr>
+<tr><td>拉伸黏結強度（標準條件）</td><td>≥2.0 MPa</td><td>5.0 MPa</td><td>合格</td></tr>
+<tr><td>拉伸黏結強度（浸水後）</td><td>≥2.0 MPa</td><td>3.6 MPa</td><td>合格</td></tr>
+<tr><td>耐衝擊性（1000g 鋼球重載）</td><td>塗膜無裂紋、無剝落</td><td>塗膜無裂紋、無剝落</td><td>合格</td></tr>
+<tr><td>防滑性（乾摩擦係數）</td><td>≥0.50</td><td>0.83</td><td>合格</td></tr>
+</tbody>
+</table>
+<div class="note"><b>認證：</b>通過 C3 級 ANTI-SLIP 防滑認證，並取得 CNAS 國際互認機構頒發之檢測證書。</div></section>
+
+<section class="section" id="s6"><div class="section-head"><div class="num">06</div><div><h2>教學影片</h2><div class="muted">完整施作示範，建議正式施工前先完整觀看一次。</div></div></div>
+<div class="video-wrap">
+  <video controls preload="metadata" src="jie-mo-shi-jiaoxue.mp4">您的瀏覽器不支援影片播放，請直接下載影片檔案觀看。</video>
+</div></section>
+
+<section class="section" id="s7"><div class="section-head"><div class="num">07</div><div><h2>現場注意事項</h2><div class="muted">開工前與每一層完成後都可以快速確認。</div></div></div>
+<div class="check"><span class="dot"></span><div>本系統為地面專用，施作前請確認地面已完成整平、乾燥、無空鼓或裂縫。</div></div>
+<div class="check"><span class="dot"></span><div>地面若有 3mm 以內落差，先批覆界平線找平，再進行後續工序。</div></div>
+<div class="check"><span class="dot"></span><div>各層之間需確實等待前一層達到可施工狀態後，再進行下一道工序。</div></div>
+<div class="check"><span class="dot"></span><div>各材料 A／B 劑（含骨料）請依比例分開秤重，均勻攪拌後再施作。</div></div>
+<div class="check"><span class="dot"></span><div>如客戶需要霧面質感，記得在面塗完成後加一道啞光保護漆。</div></div>
+<div class="check"><span class="dot"></span><div>正式施工前建議完整觀看教學影片，或與熟悉此系統的師傅確認細節。</div></div>
+</section>
+
+</main>
+<footer>界磨石施工說明｜現場施工仍應依實際底材、環境濕度、溫度與施工面積彈性調整，詳細工序請以教學影片為準。</footer>
+<script>
+document.querySelectorAll('.nav a[href^="#"]').forEach(function(link){
+  link.addEventListener('click', function(e){
+    e.preventDefault();
+    var id = this.getAttribute('href').slice(1);
+    var target = document.getElementById(id);
+    if(target){ target.scrollIntoView({behavior:'smooth', block:'start'}); }
+  });
+});
+<\/script>
+</body></html>
+`
+};
+
+function initTopNav(){
+  const calcBtn = document.getElementById('navCalcBtn');
+  const techBtn = document.getElementById('navTechBtn');
+  const calcView = document.getElementById('calcView');
+  const techView = document.getElementById('techView');
+
+  function showView(view){
+    calcBtn.classList.toggle('active', view === 'calc');
+    techBtn.classList.toggle('active', view === 'tech');
+    calcView.style.display = view === 'calc' ? 'block' : 'none';
+    techView.style.display = view === 'tech' ? 'block' : 'none';
+    window.scrollTo(0, 0);
+  }
+
+  calcBtn.addEventListener('click', () => showView('calc'));
+  techBtn.addEventListener('click', () => showView('tech'));
+
+  document.querySelectorAll('.tech-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const docId = card.getAttribute('data-doc');
+      const html = TECH_DOCS[docId];
+      if(!html) return;
+      const frame = document.getElementById('techFrame');
+      frame.srcdoc = html;
+      document.getElementById('techList').style.display = 'none';
+      document.getElementById('techDetail').style.display = 'block';
+      window.scrollTo(0, 0);
+    });
+  });
+
+  document.getElementById('techBackBtn').addEventListener('click', () => {
+    document.getElementById('techDetail').style.display = 'none';
+    document.getElementById('techList').style.display = 'block';
+    window.scrollTo(0, 0);
+  });
+
+  document.getElementById('techFrame').addEventListener('load', function(){
+    try{
+      const doc = this.contentWindow.document;
+      this.style.height = doc.documentElement.scrollHeight + 'px';
+    }catch(e){}
+  });
+}
+
+initTopNav();
+
 const PING_PER_SQM = 3.30578;
 const COLOR_FEE_PER_BUCKET = 100;
 
@@ -1030,6 +1590,19 @@ const materials = [
     methods: {
       batch: { label:'批塗', range:[3,3.5], coats:'2道', price:3300 }
     }
+  },
+  {
+    id: 'jiemoshi',
+    en: 'TERRAZZO FLOOR',
+    zh: '界磨石',
+    tags: '地面專用磨石地坪系統・底漆＋中塗＋面塗，如需霧面可加購啞光保護漆',
+    isFloorSystem: true,
+    layers: [
+      { key: 'primer', label: '底漆', price: 2800, range: [6,6] },
+      { key: 'middle', label: '中塗', price: 4600, range: [4,4] },
+      { key: 'top', label: '面塗', price: 6800, range: [3,3] },
+      { key: 'matte', label: '啞光保護漆', price: 4800, range: [15,15], optional: true }
+    ]
   }
 ];
 
@@ -1065,9 +1638,12 @@ const primers = {
   }
 };
 
-// state: { [matId]: 'batch' | 'brush' | null }
+// state: { [matId]: 'batch' | 'brush' | null (or true for floor-system materials) }
 const state = {};
 materials.forEach(m => state[m.id] = null);
+
+// state: { [matId]: { [layerKey]: boolean } } — tracks optional layer toggles for floor-system materials
+const floorSystemOptions = {};
 
 const TAX_RATE = 0.05;
 let currentGrandTotal = 0;
@@ -1146,11 +1722,61 @@ function renderMatGrid(){
   grid.innerHTML = '';
   const METHOD_LABELS = { batch:'批塗', brush:'刷塗', roll:'滾塗', spray:'噴塗' };
   const ALL_METHOD_KEYS = ['batch','brush','roll','spray'];
+  const ping = getPing();
 
   materials.forEach(m => {
     const card = document.createElement('div');
     card.className = 'mat-card' + (state[m.id] ? ' active' : '');
     card.id = 'card-' + m.id;
+
+    if(m.isFloorSystem){
+      let bodyHtml = '';
+      if(state[m.id]){
+        let total = 0;
+        let layerLines = '';
+        m.layers.forEach(layer => {
+          const isOn = !layer.optional || !!(floorSystemOptions[m.id] && floorSystemOptions[m.id][layer.key]);
+          if(!isOn){
+            layerLines += `<div class="price-line"><span class="lbl">${layer.label}（選用）</span><span class="val" style="color:var(--ink-soft);">未選用</span></div>`;
+            return;
+          }
+          const buckets = calcBuckets(ping, layer.range);
+          const lineTotal = buckets * layer.price;
+          total += lineTotal;
+          layerLines += `<div class="price-line"><span class="lbl">${layer.label}（${buckets}組 × $${layer.price.toLocaleString()}／${layer.range[0]}坪）</span><span class="val">$${lineTotal.toLocaleString()}</span></div>`;
+        });
+
+        bodyHtml = `
+          <div class="bucket-line">${ping > 0 ? `依 <b>${ping.toFixed(2)}</b> 坪計算` : '請先於上方填寫坪數'}</div>
+          ${layerLines}
+          <div class="price-line" style="border-top:1px solid var(--line); margin-top:8px; padding-top:10px;"><span class="lbl"><b>此材料合計</b></span><span class="val" style="color:var(--orange); font-size:18px;">$${total.toLocaleString()}</span></div>
+        `;
+      }
+
+      const optionalTogglesHtml = m.layers.filter(l => l.optional).map(l => `
+        <label style="display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--ink-soft); margin-bottom:12px; cursor:pointer;">
+          <input type="checkbox" data-floor-option="${m.id}" data-layer-key="${l.key}" ${(floorSystemOptions[m.id] && floorSystemOptions[m.id][l.key]) ? 'checked' : ''}>
+          <span>需要「${l.label}」（+$${l.price.toLocaleString()}／${l.range[0]}坪）</span>
+        </label>
+      `).join('');
+
+      card.innerHTML = `
+        <div class="mat-top" data-toggle="${m.id}">
+          <div class="mat-name-group">
+            <div class="mat-en">${m.en}</div>
+            <div class="mat-zh">${m.zh}</div>
+            <div class="mat-tags">${m.tags}</div>
+          </div>
+          <div class="checkbox"></div>
+        </div>
+        <div class="mat-detail">
+          ${optionalTogglesHtml}
+          ${bodyHtml}
+        </div>
+      `;
+      grid.appendChild(card);
+      return;
+    }
 
     const availableKeys = ALL_METHOD_KEYS.filter(k => !!m.methods[k]);
 
@@ -1172,7 +1798,6 @@ function renderMatGrid(){
 
     if(state[m.id]){
       const method = m.methods[state[m.id]];
-      const ping = getPing();
       const buckets = calcBuckets(ping, method.range);
       const subtotal = buckets * method.price;
       const colorFee = m.noColorFee ? 0 : buckets * COLOR_FEE_PER_BUCKET;
@@ -1220,10 +1845,12 @@ function renderMatGrid(){
   document.querySelectorAll('[data-toggle]').forEach(el => {
     el.addEventListener('click', () => {
       const id = el.getAttribute('data-toggle');
+      const m = materials.find(x => x.id === id);
       if(state[id]){
         state[id] = null;
+      } else if(m.isFloorSystem){
+        state[id] = true;
       } else {
-        const m = materials.find(x => x.id === id);
         const firstMethod = Object.keys(m.methods)[0];
         state[id] = firstMethod;
       }
@@ -1238,6 +1865,18 @@ function renderMatGrid(){
       const matId = el.getAttribute('data-mat');
       const method = el.getAttribute('data-method');
       state[matId] = method;
+      renderMatGrid();
+      renderSummary();
+    });
+  });
+
+  document.querySelectorAll('[data-floor-option]').forEach(el => {
+    el.addEventListener('click', (e) => e.stopPropagation());
+    el.addEventListener('change', (e) => {
+      const matId = el.getAttribute('data-floor-option');
+      const layerKey = el.getAttribute('data-layer-key');
+      if(!floorSystemOptions[matId]) floorSystemOptions[matId] = {};
+      floorSystemOptions[matId][layerKey] = el.checked;
       renderMatGrid();
       renderSummary();
     });
@@ -1273,6 +1912,31 @@ function renderSummary(){
   let html = '';
 
   selected.forEach(m => {
+    if(m.isFloorSystem){
+      let subtotal = 0;
+      const layerParts = [];
+      m.layers.forEach(layer => {
+        const isOn = !layer.optional || !!(floorSystemOptions[m.id] && floorSystemOptions[m.id][layer.key]);
+        if(!isOn) return;
+        const buckets = calcBuckets(ping, layer.range);
+        const lineTotal = buckets * layer.price;
+        subtotal += lineTotal;
+        layerParts.push(`${layer.label} ${buckets}組×$${layer.price.toLocaleString()}`);
+      });
+      grandTotal += subtotal;
+
+      html += `
+        <div class="summary-row">
+          <div>
+            <div class="s-name">${m.zh}　<span style="font-size:11px;color:#948C7E;">地面系統</span></div>
+            <div class="s-detail">${layerParts.join('　＋　')}</div>
+          </div>
+          <div class="s-price">$${subtotal.toLocaleString()}</div>
+        </div>
+      `;
+      return;
+    }
+
     const method = m.methods[state[m.id]];
     const buckets = calcBuckets(ping, method.range);
     const subtotal = buckets * method.price;
@@ -1484,6 +2148,245 @@ renderMatGrid();
 renderSummary();
 renderPing();
 setQuoteDate();
+</script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, getDocs, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyABXri2KRZqJmND3AnCwMoyV2LFqH5JyVo",
+  authDomain: "pickme-cms-ac426.firebaseapp.com",
+  projectId: "pickme-cms-ac426",
+  storageBucket: "pickme-cms-ac426.firebasestorage.app",
+  messagingSenderId: "155093423712",
+  appId: "1:155093423712:web:0a422cf24c359ad1c59505"
+};
+
+const fbApp = initializeApp(firebaseConfig);
+const auth = getAuth(fbApp);
+const db = getFirestore(fbApp);
+const storage = getStorage(fbApp);
+
+let currentUser = null;
+let dynamicGuides = [];
+
+function escapeHtml(s){
+  return String(s == null ? '' : s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ---------- Build a standalone guide page (same visual language as the static guides) ----------
+function buildGuideHTML(g){
+  const imagesHtml = (g.images||[]).map(url =>
+    `<img src="${escapeHtml(url)}" alt="" style="width:100%;border-radius:14px;margin:10px 0;border:1px solid #d8d2c8;display:block;">`
+  ).join('');
+  const videoHtml = g.videoURL
+    ? `<div class="video-wrap"><video controls preload="metadata" src="${escapeHtml(g.videoURL)}">您的瀏覽器不支援影片播放。</video></div>`
+    : '';
+  const bodyParagraphs = (g.content||'').split('\n').filter(l => l.trim()).map(l => `<p>${escapeHtml(l)}</p>`).join('');
+  return '<!DOCTYPE html>' +
+'<html lang="zh-Hant"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>' + escapeHtml(g.title) + '</title>' +
+'<style>' +
+'body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;background:#f4f1eb;color:#252522;line-height:1.75}' +
+'.wrap{max-width:900px;margin:auto;padding:40px 20px 80px}' +
+'h1{font-size:32px;margin:6px 0 10px}' +
+'.eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#2f4f46;font-weight:700}' +
+'.subtitle{color:#6d6a63;font-size:15px;margin-bottom:24px}' +
+'.video-wrap{border-radius:16px;overflow:hidden;border:1px solid #d8d2c8;background:#000;margin:20px 0}' +
+'.video-wrap video{width:100%;display:block;max-height:520px}' +
+'p{margin:0 0 14px}' +
+'</style></head><body><div class="wrap">' +
+'<div class="eyebrow">PICKME &middot; 施工技術文件</div>' +
+'<h1>' + escapeHtml(g.title) + '</h1>' +
+'<div class="subtitle">' + escapeHtml(g.subtitle) + '</div>' +
+bodyParagraphs + videoHtml + imagesHtml +
+'</div></body></html>';
+}
+
+// ---------- Render dynamic (Firestore-sourced) guide cards ----------
+function renderDynamicGuideCards(){
+  const grid = document.querySelector('.tech-card-grid');
+  if(!grid) return;
+  grid.querySelectorAll('[data-dynamic="1"]').forEach(el => el.remove());
+
+  dynamicGuides.forEach(g => {
+    const card = document.createElement('div');
+    card.className = 'tech-card';
+    card.setAttribute('data-dynamic', '1');
+    card.innerHTML =
+      '<div>' +
+        '<div class="tech-card-en">' + escapeHtml(g.enLabel || 'GUIDE') + '</div>' +
+        '<div class="tech-card-title">' + escapeHtml(g.title || '未命名文件') + '</div>' +
+        '<div class="tech-card-sub">' + escapeHtml(g.subtitle || '') + '</div>' +
+      '</div>' +
+      '<div style="display:flex;align-items:center;gap:10px;">' +
+        (currentUser ? '<button type="button" class="admin-del-btn" data-id="' + g.id + '" title="刪除" style="width:26px;height:26px;border-radius:50%;border:1px solid #d8d2c8;background:#fff;color:#9d3e32;cursor:pointer;font-size:12px;line-height:1;">&#10005;</button>' : '') +
+        '<div class="tech-card-arrow">&rarr;</div>' +
+      '</div>';
+
+    card.addEventListener('click', (e) => {
+      if(e.target.closest('.admin-del-btn')) return;
+      const frame = document.getElementById('techFrame');
+      frame.srcdoc = buildGuideHTML(g);
+      document.getElementById('techList').style.display = 'none';
+      document.getElementById('techDetail').style.display = 'block';
+      window.scrollTo(0, 0);
+    });
+
+    grid.appendChild(card);
+  });
+
+  grid.querySelectorAll('.admin-del-btn').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      if(!confirm('確定要刪除這份文件嗎？此動作無法復原。')) return;
+      const id = btn.getAttribute('data-id');
+      try{
+        await deleteDoc(doc(db, 'guides', id));
+        await loadGuides();
+      }catch(err){
+        alert('刪除失敗：' + err.message);
+      }
+    });
+  });
+}
+
+async function loadGuides(){
+  try{
+    const q = query(collection(db, 'guides'), orderBy('createdAt', 'asc'));
+    const snap = await getDocs(q);
+    dynamicGuides = snap.docs.map(d => Object.assign({ id: d.id }, d.data()));
+    renderDynamicGuideCards();
+  }catch(err){
+    console.error('讀取施工技術文件失敗', err);
+  }
+}
+
+// ---------- Admin bar (login / logout / add) ----------
+function renderAdminBar(){
+  let bar = document.getElementById('adminBar');
+  if(!bar){
+    bar = document.createElement('div');
+    bar.id = 'adminBar';
+    bar.style.cssText = 'max-width:1080px;margin:0 auto;padding:8px 16px;text-align:right;font-size:12px;color:#6d6a63;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC",sans-serif;';
+    document.body.insertBefore(bar, document.body.firstChild);
+  }
+  if(currentUser){
+    bar.innerHTML =
+      '已登入管理員：' + escapeHtml(currentUser.email) +
+      '&emsp;<a href="#" id="adminAddLink" style="color:#D95C10;text-decoration:none;">＋ 新增施工技術文件</a>' +
+      '&emsp;<a href="#" id="adminLogoutLink" style="color:#6d6a63;text-decoration:underline;">登出</a>';
+    document.getElementById('adminLogoutLink').onclick = (e) => { e.preventDefault(); signOut(auth); };
+    document.getElementById('adminAddLink').onclick = (e) => { e.preventDefault(); openAddGuideModal(); };
+  } else {
+    bar.innerHTML = '<a href="#" id="adminLoginLink" style="color:#6d6a63;text-decoration:underline;">管理員登入</a>';
+    document.getElementById('adminLoginLink').onclick = (e) => { e.preventDefault(); openLoginModal(); };
+  }
+}
+
+function openLoginModal(){
+  const email = window.prompt('管理員 Email：');
+  if(!email) return;
+  const password = window.prompt('密碼：');
+  if(!password) return;
+  signInWithEmailAndPassword(auth, email, password).catch(err => alert('登入失敗：' + err.message));
+}
+
+// ---------- Add-guide modal ----------
+function openAddGuideModal(){
+  const overlay = document.createElement('div');
+  overlay.id = 'guideModalOverlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(37,37,34,0.6);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;';
+  overlay.innerHTML =
+    '<div style="background:#fffdf8;border-radius:16px;max-width:520px;width:100%;padding:26px;max-height:88vh;overflow-y:auto;font-family:-apple-system,BlinkMacSystemFont,\'Noto Sans TC\',sans-serif;">' +
+      '<h3 style="margin:0 0 16px;">新增施工技術文件</h3>' +
+      '<label style="display:block;font-size:12.5px;color:#6d6a63;margin-bottom:4px;">標題</label>' +
+      '<input id="gTitle" style="width:100%;padding:10px;margin-bottom:12px;border:1px solid #d8d2c8;border-radius:8px;box-sizing:border-box;">' +
+      '<label style="display:block;font-size:12.5px;color:#6d6a63;margin-bottom:4px;">副標題／簡介</label>' +
+      '<input id="gSubtitle" style="width:100%;padding:10px;margin-bottom:12px;border:1px solid #d8d2c8;border-radius:8px;box-sizing:border-box;">' +
+      '<label style="display:block;font-size:12.5px;color:#6d6a63;margin-bottom:4px;">內容（每行一段）</label>' +
+      '<textarea id="gContent" rows="6" style="width:100%;padding:10px;margin-bottom:12px;border:1px solid #d8d2c8;border-radius:8px;box-sizing:border-box;font-family:inherit;"></textarea>' +
+      '<label style="display:block;font-size:12.5px;color:#6d6a63;margin-bottom:4px;">上傳影片（選用）</label>' +
+      '<input id="gVideo" type="file" accept="video/*" style="margin-bottom:12px;">' +
+      '<label style="display:block;font-size:12.5px;color:#6d6a63;margin-bottom:4px;">上傳圖片（可多選，選用）</label>' +
+      '<input id="gImages" type="file" accept="image/*" multiple style="margin-bottom:16px;">' +
+      '<div id="gProgress" style="font-size:12.5px;color:#D95C10;margin-bottom:10px;"></div>' +
+      '<div style="display:flex;gap:10px;justify-content:flex-end;">' +
+        '<button type="button" id="gCancelBtn" style="padding:9px 18px;border:1px solid #d8d2c8;background:none;border-radius:8px;cursor:pointer;">取消</button>' +
+        '<button type="button" id="gSubmitBtn" style="padding:9px 18px;border:none;background:#D95C10;color:#fff;border-radius:8px;cursor:pointer;">送出</button>' +
+      '</div>' +
+    '</div>';
+  document.body.appendChild(overlay);
+  document.getElementById('gCancelBtn').onclick = () => overlay.remove();
+  document.getElementById('gSubmitBtn').onclick = () => submitNewGuide(overlay);
+}
+
+async function submitNewGuide(overlay){
+  const title = document.getElementById('gTitle').value.trim();
+  const subtitle = document.getElementById('gSubtitle').value.trim();
+  const content = document.getElementById('gContent').value.trim();
+  const videoFile = document.getElementById('gVideo').files[0];
+  const imageFiles = Array.from(document.getElementById('gImages').files || []);
+  const progressEl = document.getElementById('gProgress');
+  const submitBtn = document.getElementById('gSubmitBtn');
+
+  if(!title){ alert('請填寫標題'); return; }
+  if(!currentUser){ alert('請先登入管理員帳號'); return; }
+
+  submitBtn.disabled = true;
+  progressEl.textContent = '儲存中...';
+
+  try{
+    const docRef = await addDoc(collection(db, 'guides'), {
+      title: title,
+      subtitle: subtitle,
+      content: content,
+      videoURL: null,
+      images: [],
+      createdAt: serverTimestamp()
+    });
+
+    let videoURL = null;
+    if(videoFile){
+      progressEl.textContent = '上傳影片中...';
+      const vRef = ref(storage, 'guides/' + docRef.id + '/video-' + videoFile.name);
+      await uploadBytes(vRef, videoFile);
+      videoURL = await getDownloadURL(vRef);
+    }
+
+    const imageURLs = [];
+    for(let i = 0; i < imageFiles.length; i++){
+      progressEl.textContent = '上傳圖片中 (' + (i+1) + '/' + imageFiles.length + ')...';
+      const iRef = ref(storage, 'guides/' + docRef.id + '/image-' + i + '-' + imageFiles[i].name);
+      await uploadBytes(iRef, imageFiles[i]);
+      imageURLs.push(await getDownloadURL(iRef));
+    }
+
+    if(videoURL || imageURLs.length){
+      await updateDoc(docRef, { videoURL: videoURL, images: imageURLs });
+    }
+
+    overlay.remove();
+    await loadGuides();
+    alert('新增完成！');
+  }catch(err){
+    console.error(err);
+    alert('儲存失敗：' + err.message);
+    submitBtn.disabled = false;
+    progressEl.textContent = '';
+  }
+}
+
+onAuthStateChanged(auth, (user) => {
+  currentUser = user;
+  renderAdminBar();
+  renderDynamicGuideCards();
+});
+
+loadGuides();
 </script>
 
 </body>
