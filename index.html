@@ -1524,6 +1524,7 @@ const materials = [
     zh: '雲絨漆小包裝',
     tags: '一組內含底漆1KG＋雲絨漆1KG，已搭配底漆整組販售',
     bucketWeight: '2kg（底漆1KG＋雲絨漆1KG）',
+    unitLabel: '組',
     noColorFee: true,
     methods: {
       brush: { label:'刷塗', range:[1.5,1.5], coats:'整組已含底漆', price:1900 }
@@ -1823,20 +1824,21 @@ function renderMatGrid(){
       const subtotal = buckets * method.price;
       const colorFee = m.noColorFee ? 0 : buckets * COLOR_FEE_PER_BUCKET;
       const total = subtotal + colorFee;
+      const unit = m.unitLabel || '桶';
 
-      detailSpecHtml = `用量：每桶（${m.bucketWeight}）可施作 <b>${method.range[0]}${method.range[1]!==method.range[0] ? '–'+method.range[1] : ''}坪</b>／${method.coats}`;
+      detailSpecHtml = `用量：每${unit}（${m.bucketWeight}）可施作 <b>${method.range[0]}${method.range[1]!==method.range[0] ? '–'+method.range[1] : ''}坪</b>／${method.coats}`;
 
       bucketLineHtml = ping > 0
-        ? `所需桶數：<b>${buckets}</b> 桶（依 ${ping.toFixed(2)} 坪計算）`
+        ? `所需${unit}數：<b>${buckets}</b> ${unit}（依 ${ping.toFixed(2)} 坪計算）`
         : `請先於上方填寫坪數`;
 
       const colorFeeLineHtml = m.noColorFee
         ? `<div class="price-line"><span class="lbl">調色費</span><span class="val">無需調色（現成色）</span></div>`
-        : `<div class="price-line"><span class="lbl">調色費（${buckets}桶 × $100，另計）</span><span class="val">$${colorFee.toLocaleString()}</span></div>`;
+        : `<div class="price-line"><span class="lbl">調色費（${buckets}${unit} × $100，另計）</span><span class="val">$${colorFee.toLocaleString()}</span></div>`;
 
       priceLineHtml = `
-        <div class="price-line"><span class="lbl">單價 / 桶</span><span class="val">$${method.price.toLocaleString()}</span></div>
-        <div class="price-line"><span class="lbl">材料小計（${buckets}桶）</span><span class="val">$${subtotal.toLocaleString()}</span></div>
+        <div class="price-line"><span class="lbl">單價 / ${unit}</span><span class="val">$${method.price.toLocaleString()}</span></div>
+        <div class="price-line"><span class="lbl">材料小計（${buckets}${unit}）</span><span class="val">$${subtotal.toLocaleString()}</span></div>
         ${colorFeeLineHtml}
         <div class="price-line" style="border-top:1px solid var(--line); margin-top:8px; padding-top:10px;"><span class="lbl"><b>此材料合計</b></span><span class="val" style="color:var(--orange); font-size:18px;">$${total.toLocaleString()}</span></div>
       `;
@@ -1964,10 +1966,11 @@ function renderSummary(){
     const colorFee = m.noColorFee ? 0 : buckets * COLOR_FEE_PER_BUCKET;
     const total = subtotal + colorFee;
     grandTotal += total;
+    const unit = m.unitLabel || '桶';
 
     const detailText = m.noColorFee
-      ? `${buckets} 桶 × $${method.price.toLocaleString()}　（現成色，無需調色費）`
-      : `${buckets} 桶 × $${method.price.toLocaleString()}　＋　調色費 $${colorFee.toLocaleString()}（$100/桶，另計）`;
+      ? `${buckets} ${unit} × $${method.price.toLocaleString()}　（現成色，無需調色費）`
+      : `${buckets} ${unit} × $${method.price.toLocaleString()}　＋　調色費 $${colorFee.toLocaleString()}（$100/${unit}，另計）`;
 
     html += `
       <div class="summary-row">
